@@ -1,0 +1,289 @@
+# CMPE 561 Application Project 2 - English grammar
+# Phase 2: context-free rules with feature checks (Slide09 pp. 48, 56; SLP2 §15.3).
+#
+# Format
+#   LHS -> child child ...      a rule
+#   NAME = tag tag ...          shorthand: NAME stands for any one of the tags
+#   indented lines              the constraints of the rule above them
+#   # ...                       comment
+#
+# Constraints
+#   A.f = B.g       check: the two values must be compatible
+#   A.f = value     check against a fixed value ("a|b" = a or b)
+#   A.f != B.g      check: the two values must differ (also with a fixed value)
+#   LHS.f <- A.g    pass up: the parent gets feature f from child A (or a fixed value)
+#   LHS <- A        pass up every feature of child A (A is the head)
+# A missing value is compatible with everything. When a symbol occurs twice
+# in a rule, the children are numbered from the left: NP_1, NP_2. In a rule
+# like VP -> VP PP the child is VP_1; the plain name left of "<-" is the parent.
+#
+# The word before ":" in a constraint comment names its group:
+#   subject-verb, det-noun, verb-form, auxiliary, complement, time, case,
+#   bare-noun, time-noun, adverb     agreement checks (data/coverage.md, group E)
+#   ambiguity                        removes a second, equivalent analysis
+# Features and their values are listed in grammar/features.md.
+#
+# Word-level symbols are Penn Treebank tags (Slide07 p. 27); the words are in
+# lexicon.txt. Rules may have any number of children; the program makes them
+# binary before running CKY.
+
+V = MD VB VBP VBZ VBD VBG VBN
+N = NN NNS
+P = IN TO
+
+# ================================================================ sentences
+
+S -> NP VP               # A1        My friend | enjoys novels            Slide09 p.18
+    NP.agr = VP.agr          # subject-verb: person and number
+    VP.vform = fin           # verb-form: a statement needs a tensed verb
+    NP.case = nom            # case: subject form of a pronoun
+
+S -> V NP VP             # A2 A3 A5  Did | you | help my mother           Slide09 p.20 (Aux NP VP)
+    V.aux = yes              # auxiliary: only an auxiliary stands before the subject
+    V.frame = VP             # complement: it takes a verb phrase
+    V.vform = fin            # verb-form: the auxiliary is tensed
+    V.agr = NP.agr           # subject-verb: Does she / * Do she
+    V.vpform = VP.vform      # verb-form: did + bare, is + -ing, has + participle
+    V.time = VP.time         # time: * Will you come yesterday
+    NP.case = nom            # case
+
+S -> V NP NP             # A4        Is | watermelon | a fruit
+    V.aux = yes              # auxiliary
+    V.frame = NP             # complement
+    V.vform = fin            # verb-form
+    V.agr = NP_1.agr         # subject-verb
+    NP_1.case = nom          # case
+
+S -> V NP ADJP           # A4        Is | the school | far
+    V.aux = yes              # auxiliary
+    V.frame = ADJP           # complement
+    V.vform = fin            # verb-form
+    V.agr = NP.agr           # subject-verb
+    NP.case = nom            # case
+
+S -> V NP PP             # A4        Is | the school | in our village
+    V.aux = yes              # auxiliary
+    V.frame = PP             # complement
+    V.prep = PP.prep         # complement
+    V.vform = fin            # verb-form
+    V.agr = NP.agr           # subject-verb
+    NP.case = nom            # case
+
+S -> V NP ADVP           # A4        Is | your mother | here
+    V.aux = yes              # auxiliary
+    V.frame = ADVP           # complement
+    ADVP.adv = place         # adverb: only a place adverb can follow "be"
+    V.vform = fin            # verb-form
+    V.agr = NP.agr           # subject-verb
+    NP.case = nom            # case
+
+S -> WHADVP V NP VP      # A6        When | did | you | come here         Slide09 p.23
+    V.aux = yes              # auxiliary
+    V.frame = VP             # complement
+    V.vform = fin            # verb-form
+    V.agr = NP.agr           # subject-verb
+    V.vpform = VP.vform      # verb-form
+    V.time = VP.time         # time
+    NP.case = nom            # case
+
+S -> WHADVP V NP         # A10       Where | is | the school
+    V.aux = yes              # auxiliary
+    V.frame = PP             # complement: the question word stands for the place phrase of "be"
+    V.vform = fin            # verb-form
+    V.agr = NP.agr           # subject-verb
+    NP.case = nom            # case
+
+S -> WHNP VP             # A7        Who | bought the present             Slide09 p.22
+    WHNP.agr = VP.agr        # subject-verb
+    VP.vform = fin           # verb-form
+
+S -> VP                  # A8 A9     Listen to music                      Slide09 p.19
+    VP.vform = base          # verb-form: a command uses the bare verb
+
+# ============================================================== noun phrase
+
+NP -> PRP                # B1        she, me
+    NP <- PRP
+
+NP -> NNP                # B9        Ali
+    NP <- NNP
+
+NP -> DT Nom             # B2        this | tree                          Slide09 p.7
+    DT.agr = Nom.agr         # det-noun: this tree / * this trees
+    NP <- Nom
+
+NP -> PRP$ Nom           # B3        my | friend
+    NP <- Nom
+
+NP -> CD Nom             # B10       two | novels                         Slide09 p.28
+    CD.agr = Nom.agr         # det-noun: two novels / * two novel
+    NP <- Nom
+
+NP -> Nom                # B4 B11    novels, music, yesterday             Slide09 p.27
+    Nom.bare = yes           # bare-noun: only plural, mass and time nouns stand alone
+    NP <- Nom
+
+NP -> NP CC NP           # B8        my mother | and | my father          Slide09 p.42
+    NP_1.case = NP_2.case    # case
+    NP.case <- NP_1.case
+    NP.agr <- 3pl
+    NP.temporal <- no
+
+Nom -> N                 #           friend, friends                      Slide09 p.7
+    Nom <- N
+
+Nom -> ADJP Nom          # B5 B6     historical | novels                  Slide09 p.28
+    ADJP.agr = Nom_1.agr     # det-noun: many novels / * many novel
+    Nom <- Nom_1
+    Nom.mod <- yes
+
+Nom -> Nom PP            # B7        fruit | of summer                    Slide09 p.31
+    Nom_1.mod != yes         # ambiguity: the phrase attaches to the noun before the adjective does
+    Nom <- Nom_1
+
+Nom -> Nom CC Nom        # B8        culture | and | history              Slide09 p.42
+    Nom.agr <- 3pl
+    Nom.bare <- no
+    Nom.temporal <- no
+
+WHNP -> WP               # A7        who
+    WHNP <- WP
+
+WHNP -> WDT Nom          # A7        which | friend                       Slide09 p.22
+    WDT.agr = Nom.agr        # det-noun
+    WHNP.agr <- Nom.agr
+
+# =================================== adjective, adverb, preposition phrases
+
+ADJP -> JJ               # B5 C6     beautiful
+    ADJP <- JJ
+
+ADJP -> RB JJ            # B6        very | loud
+    RB.adv = deg             # adverb: only degree adverbs modify adjectives
+    ADJP <- JJ
+
+ADJP -> RBS JJ           # B6        most | beautiful
+    ADJP <- JJ
+
+ADJP -> JJ PP            # C6        far | from our village               Slide09 p.65
+    JJ.prep = PP.prep        # complement: the adjective asks for this preposition
+    ADJP <- JJ
+
+ADJP -> RB JJ PP         # C6        quite | far | from our village
+    RB.adv = deg             # adverb
+    JJ.prep = PP.prep        # complement
+    ADJP <- JJ
+
+ADVP -> RB               # C7        here, often
+    RB.adv = vp|place        # adverb: not "very", not "not"
+    ADVP <- RB
+
+WHADVP -> WRB            # A6        when
+
+PP -> P NP               # B7 C3     under | this tree, to | music        Slide09 p.38
+    NP.case = acc            # case: with me / * with I
+    PP.prep <- P.prep
+
+# ============================================================== verb phrase
+# verb with its complements                                              Slide09 pp.38, 52, 56
+
+VP -> V                  # C1        came
+    V.frame = none           # complement
+    VP <- V
+
+VP -> V NP               # C2 C6     bought | a present
+    V.frame = NP             # complement
+    NP.case = acc            # case
+    VP <- V
+
+VP -> V PP               # C3 C6     listen | to music
+    V.frame = PP             # complement
+    V.prep = PP.prep         # complement: listen to / * listen in
+    VP <- V
+
+VP -> V NP PP            # C4        helped | my mother | with dinner
+    V.frame = NP_PP          # complement
+    V.prep = PP.prep         # complement
+    NP.case = acc            # case
+    VP <- V
+
+VP -> V NP NP            # C5        bought | my friend | a present
+    V.frame = NP_NP          # complement
+    NP_1.case = acc          # case
+    NP_2.case = acc          # case
+    NP_2.temporal = no       # ambiguity: "yesterday" is a modifier, not a second object
+    VP <- V
+
+VP -> V ADJP             # C6        was | far
+    V.frame = ADJP           # complement
+    VP <- V
+    VP.prep <- ADJP.prep
+
+VP -> V ADVP             # C6        is | here
+    V.frame = ADVP           # complement
+    ADVP.adv = place         # adverb
+    VP <- V
+
+# auxiliary + verb phrase                                                Slide09 pp.40-41
+VP -> V VP               # D1 D2 D5 D6   will | help my father
+    V.frame = VP             # complement
+    V.vpform = VP_1.vform    # verb-form: will + bare, be + -ing, have + participle
+    V.time = VP_1.time       # time: * will help ... yesterday
+    VP <- V
+
+# negation
+VP -> V RB VP            # A9 D3 D4  did | not | buy a present
+    V.aux = yes              # auxiliary: only an auxiliary takes "not"
+    V.frame = VP             # complement
+    RB.adv = neg             # adverb: the adverb here is "not"
+    V.vpform = VP_1.vform    # verb-form
+    V.time = VP_1.time       # time
+    VP <- V
+
+VP -> V RB NP            # D4        is | not | a fruit
+    V.aux = yes              # auxiliary
+    V.frame = NP             # complement
+    RB.adv = neg             # adverb
+    NP.case = acc            # case
+    VP <- V
+
+VP -> V RB ADJP          # D4        was | not | far
+    V.aux = yes              # auxiliary
+    V.frame = ADJP           # complement
+    RB.adv = neg             # adverb
+    VP <- V
+    VP.prep <- ADJP.prep
+
+VP -> V RB ADVP          # D4        were | not | here
+    V.aux = yes              # auxiliary
+    V.frame = ADVP           # complement
+    RB.adv = neg             # adverb
+    ADVP.adv = place         # adverb
+    VP <- V
+
+VP -> V RB PP            # D4        is | not | in our village
+    V.aux = yes              # auxiliary
+    V.frame = PP             # complement
+    V.prep = PP.prep         # complement
+    RB.adv = neg             # adverb
+    VP <- V
+
+# optional modifiers, added one at a time                                SLP2 §12.5
+VP -> VP PP              # C7        watched the moonlight | under this tree
+    VP_1.frame != VP         # ambiguity: modifiers attach to the main verb, not above an auxiliary
+    VP_1.prep != PP.prep     # ambiguity: a phrase the verb asks for is a complement, not a modifier
+    PP.prep != of            # ambiguity: "of" phrases modify nouns
+    VP <- VP_1
+
+VP -> VP NP              # C7 B11    came | yesterday
+    NP.temporal = yes        # time-noun: only a time expression can modify
+    VP_1.time = NP.time      # time: * came tomorrow
+    VP_1.frame != VP         # ambiguity
+    VP <- VP_1
+
+VP -> VP ADVP            # C7        came | here
+    VP_1.frame != VP         # ambiguity
+    VP <- VP_1
+
+VP -> ADVP VP            # C8        often | listen to music
+    VP <- VP_1

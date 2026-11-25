@@ -1,0 +1,91 @@
+# CMPE 561 Application Project 2 - stems: the dictionary part of the lexicon
+#
+# Features that belong to the word itself and hold for all its forms: which
+# complements a verb takes, whether a noun can stand without a determiner, ...
+# A word form finds its stem through its analysis in lexicon.txt
+# (went -> go+ed -> the entry "go" below). Words without a suffix are their
+# own stem. A stem may have several lines (do: auxiliary and main verb).
+#
+# Format:  stem   class   feature=value ...
+#          class is a tag, or one of the shorthands defined here.
+# A stem that needs no feature of its own (friend, the, historical) has no line.
+
+V = VB VBP VBZ VBD VBG VBN
+N = NN NNS
+
+# ------------------------------------------------------- personal pronouns
+i           PRP   agr=1sg       case=nom
+you         PRP   agr=2sg|2pl
+he          PRP   agr=3sg       case=nom
+she         PRP   agr=3sg       case=nom
+it          PRP   agr=3sg
+we          PRP   agr=1pl       case=nom
+they        PRP   agr=3pl       case=nom
+me          PRP   agr=1sg       case=acc
+him         PRP   agr=3sg       case=acc
+her         PRP   agr=3sg       case=acc
+us          PRP   agr=1pl       case=acc
+them        PRP   agr=3pl       case=acc
+
+# ----------------------------------------------- determiners, numbers, who
+a           DT    agr=3sg
+an          DT    agr=3sg
+this        DT    agr=3sg
+that        DT    agr=3sg
+every       DT    agr=3sg
+these       DT    agr=3pl
+those       DT    agr=3pl
+one         CD    agr=3sg
+two         CD    agr=3pl
+who         WP    agr=3sg
+
+# -------------------------------------------------------------------- nouns
+# mass nouns: can stand without a determiner
+dinner      N     bare=yes
+moonlight   N     bare=yes
+music       N     bare=yes
+history     N     bare=yes
+culture     N     bare=yes
+watermelon  N     bare=yes
+fruit       N     bare=yes
+# time nouns: can modify a verb phrase; "time" is when they can refer to
+summer      N     bare=yes   temporal=yes
+night       N     temporal=yes
+yesterday   N     bare=yes   temporal=yes   time=past
+today       N     bare=yes   temporal=yes
+tonight     N     bare=yes   temporal=yes
+tomorrow    N     bare=yes   temporal=yes   time=fut
+
+# -------------------------------------------------------------------- verbs
+# frame: the complements the verb allows   (none, NP, PP, NP_PP, NP_NP, ADJP, ADVP, VP)
+# prep:  the preposition its PP must have
+buy         V     frame=NP|NP_NP
+enjoy       V     frame=NP
+help        V     frame=NP|NP_PP        prep=with
+tell        V     frame=PP|NP_PP        prep=about
+attend      V     frame=NP
+watch       V     frame=NP
+come        V     frame=none
+listen      V     frame=none|PP         prep=to
+go          V     frame=PP              prep=to
+read        V     frame=none|NP
+
+# be, do, have. vpform: the form of the verb phrase an auxiliary asks for
+be          V     aux=yes   frame=NP|ADJP|PP|ADVP|VP   vpform=ing
+do          V     aux=yes   frame=VP                   vpform=base
+do          V     frame=NP
+have        V     aux=yes   frame=VP                   vpform=part
+have        V     frame=NP
+
+# ------------------------------------------------------------------- modals
+will        MD    time=fut
+can         MD    time=pres|fut
+
+# ----------------------------------------------------- adjectives, adverbs
+far         JJ    prep=from
+many        JJ    agr=3pl
+here        RB    adv=place
+there       RB    adv=place
+quite       RB    adv=deg
+very        RB    adv=deg
+not         RB    adv=neg

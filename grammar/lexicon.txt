@@ -1,0 +1,227 @@
+# CMPE 561 Application Project 2 - lexicon: word forms
+#
+# The output we assume from the morphological analyzer: for every word form
+# its Penn Treebank tag and its analysis as stem+suffix. So far this is the
+# vocabulary of the test sentences; the closed classes are completed in phase 3.
+#
+# Format:  word-form   tag   analysis   [feature=value ...]
+#          analysis is "-" when the word has no suffix (it is its own stem)
+# A word form with several possible tags has one line per tag.
+#
+# The features of a word form come from three places, later ones win:
+#   1. its tag            (tags.txt:   NNS is plural, VBD is past, ...)
+#   2. its stem           (stems.txt:  go needs a "to" phrase, music is a mass noun, ...)
+#   3. this line          (only for irregular forms: am, are, was, were)
+
+# ------------------------------------------------------- personal pronouns
+i           PRP   -
+you         PRP   -
+he          PRP   -
+she         PRP   -
+it          PRP   -
+we          PRP   -
+they        PRP   -
+me          PRP   -
+him         PRP   -
+her         PRP   -
+us          PRP   -
+them        PRP   -
+
+# ----------------------------------------------------- possessive pronouns
+my          PRP$  -
+your        PRP$  -
+his         PRP$  -
+her         PRP$  -
+its         PRP$  -
+our         PRP$  -
+their       PRP$  -
+
+# -------------------------------------------------------------- determiners
+a           DT    -
+an          DT    -
+the         DT    -
+this        DT    -
+that        DT    -
+these       DT    -
+those       DT    -
+every       DT    -
+some        DT    -
+
+# ------------------------------------------------------------------ numbers
+one         CD    -
+two         CD    -
+
+# -------------------------------------------------------------------- nouns
+present     NN    -
+presents    NNS   present+s
+friend      NN    -
+friends     NNS   friend+s
+mother      NN    -
+father      NN    -
+fruit       NN    -
+meeting     NN    -
+tree        NN    -
+trees       NNS   tree+s
+school      NN    -
+village     NN    -
+gift        NN    -
+book        NN    -
+novel       NN    -
+novels      NNS   novel+s
+epics       NNS   epic+s
+night       NN    -
+nights      NNS   night+s
+dinner      NN    -
+moonlight   NN    -
+music       NN    -
+history     NN    -
+culture     NN    -
+watermelon  NN    -
+summer      NN    -
+yesterday   NN    -
+today       NN    -
+tomorrow    NN    -
+tonight     NN    -
+
+# ------------------------------------------------------------- proper nouns
+ali         NNP   -
+ankara      NNP   -
+
+# -------------------------------------------------------------------- verbs
+buy         VB    buy
+buy         VBP   buy
+buys        VBZ   buy+s
+bought      VBD   buy+ed
+bought      VBN   buy+ed
+buying      VBG   buy+ing
+
+enjoy       VB    enjoy
+enjoy       VBP   enjoy
+enjoys      VBZ   enjoy+s
+enjoyed     VBD   enjoy+ed
+enjoyed     VBN   enjoy+ed
+enjoying    VBG   enjoy+ing
+
+help        VB    help
+help        VBP   help
+helps       VBZ   help+s
+helped      VBD   help+ed
+helped      VBN   help+ed
+helping     VBG   help+ing
+
+tell        VB    tell
+tell        VBP   tell
+tells       VBZ   tell+s
+told        VBD   tell+ed
+told        VBN   tell+ed
+telling     VBG   tell+ing
+
+attend      VB    attend
+attend      VBP   attend
+attends     VBZ   attend+s
+attended    VBD   attend+ed
+attended    VBN   attend+ed
+attending   VBG   attend+ing
+
+watch       VB    watch
+watch       VBP   watch
+watches     VBZ   watch+s
+watched     VBD   watch+ed
+watched     VBN   watch+ed
+watching    VBG   watch+ing
+
+come        VB    come
+come        VBP   come
+comes       VBZ   come+s
+came        VBD   come+ed
+come        VBN   come+ed
+coming      VBG   come+ing
+
+listen      VB    listen
+listen      VBP   listen
+listens     VBZ   listen+s
+listened    VBD   listen+ed
+listened    VBN   listen+ed
+listening   VBG   listen+ing
+
+go          VB    go
+go          VBP   go
+goes        VBZ   go+s
+went        VBD   go+ed
+gone        VBN   go+ed
+going       VBG   go+ing
+
+read        VB    read
+read        VBP   read
+reads       VBZ   read+s
+read        VBD   read+ed
+read        VBN   read+ed
+reading     VBG   read+ing
+
+# be, do, have (auxiliaries and main verbs)
+be          VB    be
+am          VBP   be      agr=1sg
+are         VBP   be      agr=2sg|1pl|2pl|3pl
+is          VBZ   be+s
+was         VBD   be+ed   agr=1sg|3sg
+were        VBD   be+ed   agr=2sg|1pl|2pl|3pl
+been        VBN   be+ed
+being       VBG   be+ing
+
+do          VB    do
+do          VBP   do
+does        VBZ   do+s
+did         VBD   do+ed
+done        VBN   do+ed
+doing       VBG   do+ing
+
+have        VB    have
+have        VBP   have
+has         VBZ   have+s
+had         VBD   have+ed
+had         VBN   have+ed
+having      VBG   have+ing
+
+# ------------------------------------------------------------------- modals
+will        MD    -
+can         MD    -
+
+# --------------------------------------------------------------- adjectives
+historical  JJ    -
+national    JJ    -
+beautiful   JJ    -
+far         JJ    -
+loud        JJ    -
+many        JJ    -
+
+# ------------------------------------------------------------------ adverbs
+here        RB    -
+there       RB    -
+lastly      RB    -
+quite       RB    -
+very        RB    -
+often       RB    -
+not         RB    -
+most        RBS   -
+
+# ----------------------------------------------------------- question words
+when        WRB   -
+where       WRB   -
+why         WRB   -
+how         WRB   -
+who         WP    -
+which       WDT   -
+
+# ------------------------------------------------------------- prepositions
+for         IN    -
+with        IN    -
+about       IN    -
+of          IN    -
+under       IN    -
+from        IN    -
+in          IN    -
+to          TO    -
+
+# ------------------------------------------------------------- conjunctions
+and         CC    -
+or          CC    -

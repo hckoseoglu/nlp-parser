@@ -1,0 +1,67 @@
+# Held-out sentences: written after the grammar was finished, without looking
+# at its rules, to see how it behaves on sentences it was not built for.
+# Same format as tests.txt. H = held-out.
+H1	+	She bought a present for her mother.
+H2	+	They are watching the moonlight.
+H3	+	My father reads historical novels.
+H4	+	Does Ali enjoy music?
+H5	+	Where did they go yesterday?
+H6	+	We will go to the village tomorrow.
+H7	+	Is Ali your friend?
+H8	+	Do not watch the moonlight.
+H9	+	The trees in our village are beautiful.
+H10	+	He has read two novels.
+H11	+	I am not listening to music.
+H12	+	Who is your father?
+H13	+	Read the book.
+H14	+	You can help me tonight.
+H15	+	The meeting was in the school yesterday.
+H16	+	Ali and my father went to the meeting.
+H17	+	She is very beautiful.
+H18	+	I often read novels.
+H19	+	Did she come to the school?
+H20	+	They were not here.
+H21	+	Why are you reading this book?
+H22	+	Our friends attended the meeting.
+H23	+	I told him about the book.
+H24	+	The fruit is beautiful.
+H25	+	We have dinner every night.
+H26	+	Come tomorrow.
+H27	+	How did you go to Ankara?
+H28	+	These novels are historical.
+H29	+	Who are your friends?
+H30	+	The school is here.
+H31	*	She buy a present.
+H32	*	They is watching the moonlight.
+H33	*	My father reads historical novel.
+H34	*	Does Ali enjoys music?
+H35	*	We will went to the village.
+H36	*	Do not watches the moonlight.
+H37	*	The trees in our village is beautiful.
+H38	*	He has reads two novels.
+H39	*	I am not listen to music.
+H40	*	Him can help me.
+H41	*	You can help I tonight.
+H42	*	The meeting was in the school tomorrow.
+H43	*	Ali and my father goes to the meeting.
+H44	*	She is very.
+H45	*	I often reads novels.
+H46	*	Did she came to the school?
+H47	*	Why are you read this book?
+H48	*	I told about the book him.
+H49	*	A fruits is beautiful.
+H50	*	We has dinner every night.
+H51	*	These novel are historical.
+H52	*	I went to.
+H53	*	They watched the moonlight in.
+H54	*	I bought a.
+H55	*	Two friend came.
+H56	*	The school far is.
+H57	*	I will not attended the meeting.
+H58	*	Many friend came.
+H59	*	He were far from the village.
+H60	*	Listen music.
+H61	*	Me bought a present.
+H62	*	The Ali came.
+H63	*	I have went to the school.
+H64	*	She is go to the school.

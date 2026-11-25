@@ -1,0 +1,6 @@
+__pycache__/
+.DS_Store
+
+# kept on this machine only, not published
+docs/Application Project 2.pdf
+report/ai-usage-log.md

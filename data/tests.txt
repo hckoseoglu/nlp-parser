@@ -1,0 +1,156 @@
+# Test sentences for the grammar.
+# Columns: id, expected (+ must parse, * must be rejected), sentence.
+# S1-S10 and X1-X6 are the assignment's examples (data/sentences.md);
+# the other ids are checklist items (data/coverage.md), numbered in order.
+
+S1	+	I bought a present for my friend yesterday.
+S2	+	I enjoy historical novels.
+S3	+	I helped my mother with dinner yesterday.
+S4	+	Epics tell about our national culture and history.
+S5	+	Watermelon is the most beautiful fruit of summer.
+S6	+	Will you attend the meeting tonight?
+S7	+	We watched the moonlight under this tree every night.
+S8	+	When did you come here lastly?
+S9	+	The school was quite far from our village.
+S10	+	Do not listen to loud music.
+X1	*	I buys a gift for my friend.
+X2	*	I read a historical novels.
+X3	*	I will help my father yesterday.
+X4	*	I went the school.
+X5	*	I was read the book.
+X6	*	I went in the school.
+
+A1.1	+	My friend enjoys historical novels.
+A1.2	+	The school is far from our village.
+A2.1	+	Can we watch the moonlight tonight?
+A2.2	*	Will you attends the meeting tonight?
+A3.1	+	Did you help my mother?
+A3.2	+	Does my friend enjoy historical novels?
+A3.3	+	Do you listen to music?
+A3.4	*	Does you enjoy historical novels?
+A3.5	*	Did you helped my mother?
+A3.6	*	Enjoy you historical novels?
+A4.1	+	Is the school far from our village?
+A4.2	+	Is watermelon a fruit?
+A4.3	*	Are the school far from our village?
+A4.4	*	Bought you a present?
+A4.5	+	Is your mother here?
+A5.1	+	Are you listening to music?
+A5.2	*	Are you listen to music?
+A6.1	+	Where did you buy the present?
+A6.2	+	Why will you attend the meeting?
+A6.3	*	When did you came here?
+A6.4	*	When you did come here?
+A7.1	+	Who bought the present?
+A7.2	+	Who will attend the meeting?
+A7.3	+	Which friend helped my mother?
+A7.4	*	Who enjoy historical novels?
+A8.1	+	Listen to music.
+A8.2	+	Help my mother with dinner.
+A8.3	+	Come here.
+A8.4	*	Listens to music.
+A8.5	*	Went to the school.
+A9.1	+	Do not go to the school.
+A9.2	*	Do not listens to loud music.
+A9.3	*	Not listen to loud music.
+A10.1	+	Where is the school?
+A10.2	+	How is your mother?
+A10.3	*	Where are the school?
+A10.4	*	Where the school is?
+B1.1	+	She helped me.
+B1.2	+	They watched us.
+B1.3	*	Her helped me.
+B1.4	*	She helped I.
+B2.1	+	This tree is beautiful.
+B2.2	+	These trees are beautiful.
+B2.3	*	This trees are beautiful.
+B2.4	*	These tree is beautiful.
+B2.5	*	I bought a presents.
+B2.6	*	We watched the moonlight every nights.
+B3.1	+	My friends enjoy historical novels.
+B3.2	+	The school was far from our village.
+B4.1	+	I enjoy novels.
+B4.2	+	We listen to music.
+B4.3	*	I bought present.
+B4.4	*	Novel is beautiful.
+B5.1	+	I bought a beautiful historical novel.
+B5.2	*	I bought a novel beautiful.
+B6.1	+	I bought the most beautiful present.
+B6.2	+	I bought a very beautiful present.
+B6.3	+	The music was very loud.
+B6.4	*	I bought a very present.
+B7.1	+	I enjoy the fruit of summer.
+B7.2	+	The school in our village is far.
+B8.1	+	I enjoy novels and music.
+B8.2	+	My mother and my father enjoy novels.
+B8.3	*	My mother and my father enjoys novels.
+B9.1	+	Ali bought a present.
+B9.2	+	I went to Ankara.
+B10.1	+	I bought two novels.
+B10.2	+	I bought one novel.
+B10.3	*	I bought two novel.
+B11.1	+	I came here yesterday.
+B11.2	+	We will come tomorrow.
+B11.3	+	I listen to music every night.
+B11.4	*	We watched the moonlight this tree.
+B12.1	+	I bought many novels.
+B12.2	*	I bought many novel.
+C1.1	+	You came.
+C1.2	+	We came here yesterday.
+C1.3	*	You came the school.
+C2.1	+	I bought a present.
+C2.2	*	I enjoy.
+C3.1	+	We went to the school.
+C3.2	+	I listen to music.
+C3.3	+	Epics tell about our history.
+C3.4	*	I listen music.
+C4.1	+	I helped my mother with dinner.
+C4.2	+	I helped my mother.
+C5.1	+	I bought my friend a present.
+C5.2	*	I enjoy my friend a novel.
+C6.1	+	Watermelon is a fruit.
+C6.2	+	The school was far.
+C6.3	+	The school is in our village.
+C6.4	*	The school was quite.
+C6.5	+	The school is here.
+C6.6	*	The school is often.
+C7.1	+	We watched the moonlight every night under this tree.
+C7.2	+	I bought a present for my friend in Ankara yesterday.
+C8.1	+	I often listen to music.
+D1.1	+	I will help my father.
+D1.2	+	You can come here.
+D1.3	*	I will helped my father.
+D1.4	*	She can comes here.
+D2.1	+	I am reading the book.
+D2.2	+	We were watching the moonlight.
+D2.3	+	She is going to the school.
+D2.4	*	We was watching the moonlight.
+D3.1	+	I did not buy a present.
+D3.2	+	She does not enjoy novels.
+D3.3	*	She do not enjoy novels.
+D3.4	*	I did not bought a present.
+D3.5	*	I bought not a present.
+D4.1	+	I will not attend the meeting.
+D4.2	+	The school was not far.
+D4.3	+	I am not reading the book.
+D4.4	+	They were not here.
+D5.1	+	I have watched the moonlight.
+D5.2	+	She has bought a present.
+D5.3	*	She have bought a present.
+D5.4	*	I have watch the moonlight.
+D6.1	+	I will be watching the moonlight.
+D6.2	*	She has will come.
+E1.1	+	She enjoys novels.
+E1.2	+	They enjoy novels.
+E1.3	*	She enjoy novels.
+E1.4	*	They enjoys novels.
+E1.5	*	I is far from the school.
+E1.6	*	You was far from the school.
+E2.1	+	Does she enjoy novels?
+E2.2	*	Do she enjoy novels?
+E4.1	+	I will help my father tomorrow.
+E4.2	+	I helped my father yesterday.
+E4.3	+	Did you come yesterday?
+E4.4	*	I helped my father tomorrow.
+E4.5	*	Will you come yesterday?
+E4.6	*	I enjoy novels yesterday.

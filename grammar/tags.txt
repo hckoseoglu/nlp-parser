@@ -1,0 +1,29 @@
+# CMPE 561 Application Project 2 - features that follow from the tag
+#
+# This is the morphological part of the lexicon: what the suffix (and so the
+# Penn Treebank tag) says about a word form. Every word with the tag gets
+# these values unless its stem (stems.txt) or its own line (lexicon.txt)
+# says otherwise.
+#
+# Format:  tag   feature=value ...      "a|b" = a or b,  "@" = the word itself
+
+# nouns: the plural suffix gives the number
+NN     agr=3sg   bare=no    temporal=no
+NNS    agr=3pl   bare=yes   temporal=no
+NNP    agr=3sg   temporal=no
+PRP    temporal=no
+
+# verbs: the suffix gives the form, the tense and the subject it goes with
+VB     vform=base   aux=no
+VBP    vform=fin    aux=no   agr=1sg|2sg|1pl|2pl|3pl   time=pres|fut
+VBZ    vform=fin    aux=no   agr=3sg                   time=pres|fut
+VBD    vform=fin    aux=no   time=past
+VBG    vform=ing    aux=no
+VBN    vform=part   aux=no
+MD     vform=fin    aux=yes  frame=VP   vpform=base
+
+# others
+JJ     prep=none
+RB     adv=vp
+IN     prep=@
+TO     prep=@
