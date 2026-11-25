@@ -431,3 +431,148 @@ Artifacts: `grammar/grammar.txt` (rules + constraints), `grammar/features.md` (f
 
 - Slide09 pp. 43–49 (agreement with feature constraints), pp. 50–57 (subcategorization), p. 40 (auxiliaries), p. 65 (attachment of modifiers in the Penn Treebank), pp. 69–71 (heads).
 - SLP2 §15.2 (unification), §15.3.1–15.3.3 (agreement, head features, subcategorization), §12.3.6 (auxiliaries), §13.2 (ambiguity), §13.4.1 (CKY).
+
+## Step 6 – The programs: conversion to Chomsky Normal Form and the CKY parser
+
+Artifacts: `to_cnf.py`, `cky.py`, `rules.py`, `lexicon.py`, `features.py`, `paths.py`, `check_grammar.py`, `grammar/grammar_cnf.txt` (generated)
+
+**What was done**
+
+- The single test script was replaced by a small set of readable modules. The parsing algorithm is now the plain textbook CKY loop over a grammar in Chomsky Normal Form, and the conversion to CNF is a separate program. Both explain their algorithm in comments.
+- Design change: until now, rules with one child (`NP → Nom`) were left in the grammar and followed inside the parser. Now the conversion removes them, as the textbook's CNF conversion does, so the parser only ever sees rules of the form `A → B C` and `A → word`.
+
+| File | Role |
+|---|---|
+| `grammar/grammar.txt` | the grammar as written by us (input) |
+| `to_cnf.py` | converts it to CNF, writes `grammar/grammar_cnf.txt` |
+| `cky.py` | CKY parser: fills the table, reads the trees, converts them back |
+| `rules.py` | reads rules and constraints; applies the constraints of a rule to feature bundles |
+| `lexicon.py` | builds the lexicon from `tags.txt`, `stems.txt`, `lexicon.txt` |
+| `features.py`, `paths.py` | feature bundles; file locations |
+| `check_grammar.py` | command line: test set, single sentence, CKY table, CNF trees, gold trees |
+
+Pipeline: `grammar.txt` → `to_cnf.py` → `grammar_cnf.txt` → `cky.py` (+ lexicon) → CKY table → CNF trees → trees of the original grammar.
+
+### Algorithm 1: conversion to Chomsky Normal Form (SLP2 §12.5, §13.4.1)
+
+CNF: every rule is `A → B C` (two non-terminals) or `A → w` (one word). CKY needs it because it always combines exactly two neighbouring pieces.
+
+The textbook conversion has three steps. What each means for our grammar:
+
+1. *Rules mixing words and non-terminals.* Nothing to do: words occur only in the lexicon. Tags are non-terminals; the lexicon holds their rules (`NN → school`).
+2. *Unit productions* (`A → B`, one non-terminal child) are removed: for every non-unit rule `B → γ` and every chain of unit productions leading from `B` up to `A`, add `A → γ`.
+   - `Nom → ADJP Nom` with the chain `NP → Nom` gives the extra rule `NP → ADJP Nom`.
+   - Lexical rules too: `NN → school` with the chain `Nom → N`, `NP → Nom` gives `Nom → school` and `NP → school`. Written compactly as `Nom → [NN]`, `NP → [NN]`: "any word the lexicon tags NN".
+3. *Rules with more than two children* are cut from the left with new symbols: `VP → VBD NP PP` becomes `<VBD+NP> → VBD NP` and `VP → <VBD+NP> PP`.
+
+```
+function TO-CNF(rules) returns cnf-rules
+    units  ← the rules with exactly one child
+    longer ← all other rules
+    tags   ← symbols that occur as a child but never as a parent
+
+    for each tag t                                   # step 2, lexical rules
+        for each chain c of unit productions going up from t
+            add  TOP(c) → [t]          remembering c
+
+    for each rule r in longer
+        for each chain c in {empty chain} ∪ chains going up from PARENT(r)      # step 2
+            left ← first child of r                                             # step 3
+            for each further child x of r, except the last
+                g ← the symbol <left + x>
+                add  g → left x        (a generated symbol; added once)
+                left ← g
+            add  (TOP(c), or PARENT(r) if c is empty) → left LAST-CHILD(r)
+                                       remembering r and c
+    return cnf-rules
+```
+
+**Keeping the feature constraints.** Each CNF rule remembers the grammar rule(s) it stands for: `NP → ADJP Nom` stands for `Nom → ADJP Nom`, then `NP → Nom`. The parser applies their constraints in that order, each to the result of the one before. A generated symbol has no constraints; it collects the feature bundles of the children seen so far, and the constraints of the long rule are applied when its last child arrives. So no constraint has to be rewritten by the conversion.
+
+**Size of the grammar at each stage**
+
+| Stage | Rules |
+|---|---|
+| As written (`grammar.txt`) | 48 |
+| Shorthands `V`, `N`, `P` replaced by tags | 170: 17 unit productions, 101 with more than two children, 52 already binary |
+| CNF (`grammar_cnf.txt`) | 299: 244 binary rules, 31 generated symbols, 24 lexical rules (plus the lexicon's own tag → word rules) |
+
+One skeleton can occur twice with different origins: `S → <VBD+NP> PP` once from the question rule `S → V NP PP` and once from `VP → V NP PP` followed by `S → VP` (a command). They are separate CNF rules with different constraints and give different trees.
+
+### Algorithm 2: CKY parsing with feature checks (SLP2 §13.4.1, Fig. 13.10; §15.5)
+
+- Gaps between the words are numbered 0 … n; `[i,j]` is the stretch of words between gap i and gap j. The table has one cell per stretch; cell `[i,j]` holds every phrase that can be built over that stretch.
+- Short stretches first (dynamic programming). A one-word stretch is looked up in the lexicon. A longer stretch must split into two parts at some gap k, because every CNF rule has two children; both parts are shorter and already done. For every B in `[i,k]` and C in `[k,j]`, each rule `A → B C` puts an A into `[i,j]`.
+- Filling order: column by column (j = 1 … n), inside a column from the bottom up (i = j−2 … 0). Then `[i,k]` (earlier column) and `[k,j]` (lower in the same column) are always ready.
+- Accepted if S is in cell `[0,n]`.
+
+```
+function CKY-PARSE(words, lexicon, grammar) returns table
+    for j ← 1 to LENGTH(words)
+        for each reading (tag, features) of words[j] in lexicon
+            add (tag, features) to table[j-1, j]              backpointer: the word
+            for each lexical rule A → [tag] in grammar
+                f ← APPLY(rule, features)
+                if f ≠ fail: add (A, f) to table[j-1, j]      backpointer: the word, the rule
+        for i ← j-2 downto 0
+            for k ← i+1 to j-1
+                for each (B, fB) in table[i, k] and (C, fC) in table[k, j]
+                    for each rule A → B C in grammar
+                        f ← APPLY(rule, fB, fC)
+                        if f ≠ fail: add (A, f) to table[i, j]    backpointer: rule, k, (B, fB), (C, fC)
+    return table
+
+function APPLY(rule, bundles) returns the parent's features or fail
+    for each grammar rule g the CNF rule stands for, in order
+        for each check of g:    fail if the two values share nothing; otherwise narrow both to the shared values
+        bundles ← the bundle built by the pass-up statements of g
+    return bundles
+```
+
+What is added to the textbook algorithm:
+
+1. **Features.** A table entry is a symbol with its feature bundle, e.g. (NP, agr=3sg). A rule produces an entry only if the constraints hold. This is where the agreement checks happen: during parsing, not afterwards.
+2. **Backpointers.** Each entry keeps the list of ways it was built (rule, split point, the two entries). Following them down from S in `[0,n]` gives the trees; an entry built in several ways gives several trees.
+3. **Back to the original grammar.** The table yields CNF trees. Each is converted back: generated symbols are removed (their children move up) and the removed unit productions are put back as levels (`NP → [NN]` becomes `[NP [Nom [NN school]]]`). SLP2 §13.4.1, "CKY in practice".
+
+Cost: about n²/2 cells, up to n split points each: time grows with n³ times the number of rules, although a sentence can have exponentially many trees; every sub-phrase is built once and shared.
+
+**Worked example** (`python3 check_grammar.py --table "She enjoys historical novels."`), cells in the order they are filled:
+
+| Cell | Words | Contents |
+|---|---|---|
+| [0,1] | She | PRP, NP |
+| [1,2] | enjoys | VBZ |
+| [0,2] | She enjoys | – |
+| [2,3] | historical | JJ, ADJP |
+| [1,3] | enjoys historical | – |
+| [0,3] | She enjoys historical | – |
+| [3,4] | novels | NNS, Nom, NP |
+| [2,4] | historical novels | Nom, NP |
+| [1,4] | enjoys historical novels | VP, `<VBZ+NP>` |
+| [0,4] | She enjoys historical novels | S |
+
+- `[0,1]`: the lexicon gives PRP; the lexical rule `NP → [PRP]` adds NP.
+- `[3,4]`: NNS from the lexicon; `Nom → [NNS]` and `NP → [NNS]` (a plural noun can stand alone).
+- `[2,4]`: split at 3: ADJP + Nom gives Nom, and NP through `NP → ADJP Nom`.
+- `[1,4]`: split at 2: VBZ + NP gives VP (the verb's frame allows an NP). `<VBZ+NP>` is the unused first half of a longer rule such as `VP → V NP PP`.
+- `[0,4]`: split at 1: NP + VP gives S; the check `NP.agr = VP.agr` compares 3sg with 3sg.
+- With `She enjoy ...` the last step fails and `[0,4]` stays empty: rejected.
+
+CNF tree vs. converted tree for `I helped my mother with dinner` (`--cnf`):
+
+```
+CNF:        [S [NP I] [VP [<VBD+NP> [VBD helped] [NP [PRP$ my] [Nom mother]]] [PP [IN with] [NP dinner]]]]
+converted:  [S [NP [PRP I]] [VP [VBD helped] [NP [PRP$ my] [Nom [NN mother]]] [PP [IN with] [NP [Nom [NN dinner]]]]]]
+```
+
+**Verification of the new programs**
+
+- Same results as before the rewrite: 91 of 91 good sentences accepted, 59 of 59 bad rejected, all 10 hand-drawn trees found, same parse counts.
+- Compared with the previous implementation (which followed unit productions inside the parser) on 4642 strings (test and held-out sentences, shuffled and one-word-changed versions, 4000 random word sequences): identical sets of trees including the features on every node, for every string.
+- The converted grammar is in CNF: all 299 rules are `A → B C` or `A → [tag]`; no unit production is left. The CNF file read back gives the same rule set. Every CNF tree is strictly binary, and each has exactly one converted tree.
+- With all constraints removed the parser agrees with an independent naive recognizer on 3300 strings.
+
+**Sources to cite for this step**
+
+- SLP2 §12.5 (normal forms), §13.4.1 (conversion to CNF, CKY recognition and parsing, Fig. 13.10, "CKY in practice"), §15.5 (parsing with unification constraints).
