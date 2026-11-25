@@ -1,6 +1,6 @@
 # Features of the grammar
 
-The feature list of phase 2. Each feature has a fixed set of values, a place where words get it from, and the checks in `grammar.txt` that use it.
+The 13 features of the grammar. Each feature has a fixed set of values, a place where words get it from, and the checks in `grammar.txt` that use it.
 
 ## How feature values work
 
@@ -8,6 +8,7 @@ The feature list of phase 2. Each feature has a fixed set of values, a place whe
 - A missing feature means "not specified" and is compatible with everything. *the* has no `agr`, so it goes with singular and plural nouns.
 - A check `A.f = B.g` succeeds when the two sides share at least one value. Both sides are then narrowed to the shared values, and that is what gets passed up. This is unification restricted to flat values (SLP2 §15.2).
 - A check `A.f != B.g` fails only when both sides are specified and share a value.
+- A pass-up `LHS.f <- A.g` sets the parent's feature if the child has it; a child without the feature changes nothing.
 - Because "not specified" passes every check, a feature that must be `yes` on some words is set to `no` on the others (for example `temporal`).
 
 ## Where a word gets its features (later ones win)
@@ -22,9 +23,10 @@ The feature list of phase 2. Each feature has a fixed set of values, a place whe
 |---|---|---|---|---|---|
 | `agr` | `1sg 2sg 3sg 1pl 2pl 3pl` | person and number | pronouns, nouns, determiners, numbers, tensed verbs; passed up to `Nom`, `NP`, `WHNP`, `VP` | tag (nouns, verbs), word (pronouns, determiners) | `* I buys a gift` · `* a historical novels` |
 | `case` | `nom acc` | subject or object form | pronouns; `NP` | word | `* Her helped me` |
-| `bare` | `yes no` | can stand without a determiner | nouns; `Nom` | tag (plural = yes), stem (mass and time nouns = yes) | `* I bought present` |
+| `bare` | `yes no` | can stand without a determiner | nouns; `Nom`; the adjectives *last*, *next* (*last night*) | tag (plural = yes), stem (mass and time nouns = yes) | `* I bought present` |
+| `pro` | `yes no` | the determiner can stand alone as a noun phrase (*this*, *some*, *both*; not *the*, *every*) | determiners | tag (default no), stem | `* The is my friend` |
 | `temporal` | `yes no` | is a time noun | nouns; `Nom`, `NP` | stem | `* We watched the moonlight this tree` |
-| `time` | `past pres fut` | when the event is / when the time noun refers to | tensed verbs, modals, time nouns; `VP`, `NP` | tag (verbs), stem (*will*, *yesterday*, *tomorrow*) | `* I will help my father yesterday` |
+| `time` | `past pres fut` | when the event is / when the time expression refers to | tensed verbs, modals, time nouns, the adjectives *last*, *next*; `VP`, `NP` | tag (verbs), stem (*will*, *yesterday*, *tomorrow*, *last*) | `* I will help my father yesterday` · `* I will come last night` |
 | `vform` | `base fin ing part` | form of the verb: bare, tensed, -ing, participle | verbs; `VP` | tag | `* Listens to music.` (command) |
 | `vpform` | `base ing part` | the verb form an auxiliary wants after it | auxiliaries, modals | stem / tag (`MD`) | `* I was read the book` |
 | `aux` | `yes no` | is an auxiliary (can stand before the subject, can take *not*) | verbs | stem / tag (`MD`) | `* Bought you a present?` |
@@ -46,9 +48,10 @@ The feature list of phase 2. Each feature has a fixed set of values, a place whe
 | Sentence type – verb form | `VP.vform = fin` / `= base` | `S → NP VP`, `S → WHNP VP` / `S → VP` |
 | Verb – its complements | `V.frame = ...` | every `VP → V ...` rule and the question rules |
 | Verb / adjective – preposition | `V.prep = PP.prep`, `JJ.prep = PP.prep` | `VP → V PP`, `VP → V NP PP`, `ADJP → JJ PP` |
-| Tense – time expression | `VP_1.time = NP.time`, `V.time = VP.time` | `VP → VP NP`, `VP → V VP`, `S → V NP VP` |
+| Tense – time expression | `VP_1.time = NP.time`, `V.time = VP.time`, `ADJP.time = Nom_1.time` | `VP → VP NP`, `VP → V VP`, `S → V NP VP`, `Nom → ADJP Nom` |
 | Pronoun case | `NP.case = nom` / `= acc` | `S → NP VP`, `VP → V NP`, `PP → P NP`, ... |
 | Noun without determiner | `Nom.bare = yes` | `NP → Nom` |
+| Determiner without noun | `DT.pro = yes` | `NP → DT` |
 | Only time nouns modify a verb phrase | `NP.temporal = yes` | `VP → VP NP` |
 | Kind of adverb | `RB.adv = ...` | `ADVP → RB`, `ADJP → RB JJ`, `VP → V RB VP`, ... |
 
@@ -63,4 +66,5 @@ The tense – time check is our own extension; it is not in the course material.
 | `PP.prep != of` | `VP → VP PP` | *of* phrases modify nouns only |
 | `Nom_1.mod != yes` | `Nom → Nom PP` | in *beautiful fruit of summer* the *of* phrase attaches before the adjective |
 | `NP_2.temporal = no` | `VP → V NP NP` | *yesterday* is a modifier, not a second object |
+| `NP_1.pro != yes` | `VP → V NP NP` | *these novels* is one object, not *these* + *novels* |
 | `Nom.bare <- no` | `Nom → Nom CC Nom` | *novels and music* without determiner is a coordination of two noun phrases only |

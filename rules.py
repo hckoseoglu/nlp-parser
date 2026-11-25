@@ -9,7 +9,8 @@ grammar.txt holds rules such as
         VP_1.prep != PP.prep     check:   the two values must differ
         VP <- VP_1               pass up: the parent gets every feature of this child
     NP -> NP CC NP
-        NP.agr <- 3pl            pass up: one feature, from a child or a fixed value
+        NP.agr <- 3pl            pass up: one feature, from a fixed value or from a
+                                 child (if the child has it)
 
 (Slide09 pp. 48, 56; SLP2 §15.3.) This module reads that file and applies
 the constraints of a rule to the features of its children.
@@ -146,8 +147,6 @@ def apply_constraints(rule, child_bundles, failures=None, span=None):
             continue
         _, feature, source = step
         value = work[source[0]].get(source[1]) if isinstance(source, tuple) else source
-        if value is None:
-            parent.pop(feature, None)
-        else:
+        if value is not None:               # a child without the feature changes nothing
             parent[feature] = value
     return parent

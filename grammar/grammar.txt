@@ -11,7 +11,8 @@
 #   A.f = B.g       check: the two values must be compatible
 #   A.f = value     check against a fixed value ("a|b" = a or b)
 #   A.f != B.g      check: the two values must differ (also with a fixed value)
-#   LHS.f <- A.g    pass up: the parent gets feature f from child A (or a fixed value)
+#   LHS.f <- A.g    pass up: the parent gets feature f from child A, if A has it
+#                   (or a fixed value: LHS.f <- value)
 #   LHS <- A        pass up every feature of child A (A is the head)
 # A missing value is compatible with everything. When a symbol occurs twice
 # in a rule, the children are numbered from the left: NP_1, NP_2. In a rule
@@ -108,6 +109,10 @@ NP -> PRP                # B1        she, me
 NP -> NNP                # B9        Ali
     NP <- NNP
 
+NP -> DT                 # B13       this, these, some
+    DT.pro = yes             # bare-noun: only some determiners stand alone (this, some; not the, every)
+    NP <- DT
+
 NP -> DT Nom             # B2        this | tree                          Slide09 p.7
     DT.agr = Nom.agr         # det-noun: this tree / * this trees
     NP <- Nom
@@ -134,7 +139,9 @@ Nom -> N                 #           friend, friends                      Slide0
 
 Nom -> ADJP Nom          # B5 B6     historical | novels                  Slide09 p.28
     ADJP.agr = Nom_1.agr     # det-noun: many novels / * many novel
+    ADJP.time = Nom_1.time   # time: "last night" is past, "next year" is future
     Nom <- Nom_1
+    Nom.bare <- ADJP.bare    # "last night", "next year" need no determiner
     Nom.mod <- yes
 
 Nom -> Nom PP            # B7        fruit | of summer                    Slide09 p.31
@@ -212,6 +219,7 @@ VP -> V NP NP            # C5        bought | my friend | a present
     NP_1.case = acc          # case
     NP_2.case = acc          # case
     NP_2.temporal = no       # ambiguity: "yesterday" is a modifier, not a second object
+    NP_1.pro != yes          # ambiguity: "these novels" is one object, not "these" + "novels"
     VP <- V
 
 VP -> V ADJP             # C6        was | far

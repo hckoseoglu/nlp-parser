@@ -23,6 +23,7 @@ VBN    vform=part   aux=no
 MD     vform=fin    aux=yes  frame=VP   vpform=base
 
 # others
+DT     pro=no    temporal=no
 JJ     prep=none
 RB     adv=vp
 IN     prep=@

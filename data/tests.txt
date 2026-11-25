@@ -61,6 +61,8 @@ B1.1	+	She helped me.
 B1.2	+	They watched us.
 B1.3	*	Her helped me.
 B1.4	*	She helped I.
+B1.5	+	She helped herself.
+B1.6	*	Herself helped me.
 B2.1	+	This tree is beautiful.
 B2.2	+	These trees are beautiful.
 B2.3	*	This trees are beautiful.
@@ -95,6 +97,13 @@ B11.3	+	I listen to music every night.
 B11.4	*	We watched the moonlight this tree.
 B12.1	+	I bought many novels.
 B12.2	*	I bought many novel.
+B13.1	+	This is my friend.
+B13.2	+	I enjoy these.
+B13.3	+	Is this a book?
+B13.4	+	I bought these novels.
+B13.5	*	The is my friend.
+B13.6	*	Every is beautiful.
+B13.7	*	These is beautiful.
 C1.1	+	You came.
 C1.2	+	We came here yesterday.
 C1.3	*	You came the school.
@@ -104,6 +113,7 @@ C3.1	+	We went to the school.
 C3.2	+	I listen to music.
 C3.3	+	Epics tell about our history.
 C3.4	*	I listen music.
+C3.5	+	We went there.
 C4.1	+	I helped my mother with dinner.
 C4.2	+	I helped my mother.
 C5.1	+	I bought my friend a present.
@@ -114,6 +124,10 @@ C6.3	+	The school is in our village.
 C6.4	*	The school was quite.
 C6.5	+	The school is here.
 C6.6	*	The school is often.
+C6.7	+	The school seems far.
+C6.8	+	She became a student.
+C6.9	+	I feel good.
+C6.10	*	The school seems.
 C7.1	+	We watched the moonlight every night under this tree.
 C7.2	+	I bought a present for my friend in Ankara yesterday.
 C8.1	+	I often listen to music.
@@ -121,6 +135,10 @@ D1.1	+	I will help my father.
 D1.2	+	You can come here.
 D1.3	*	I will helped my father.
 D1.4	*	She can comes here.
+D1.5	+	You should help your mother.
+D1.6	+	They may come tomorrow.
+D1.7	*	You should helps your mother.
+D1.8	*	They may came tomorrow.
 D2.1	+	I am reading the book.
 D2.2	+	We were watching the moonlight.
 D2.3	+	She is going to the school.
@@ -154,3 +172,63 @@ E4.3	+	Did you come yesterday?
 E4.4	*	I helped my father tomorrow.
 E4.5	*	Will you come yesterday?
 E4.6	*	I enjoy novels yesterday.
+E4.7	+	I came here last night.
+E4.8	+	We will go to the village next year.
+E4.9	+	I read a book every day.
+E4.10	*	I will come last night.
+E4.11	*	We went to the village next year.
+E4.12	*	I came here big night.
+V1.1	+	She gave the child a book.
+V1.2	+	She gave a book to the child.
+V1.3	+	We talked about the problem.
+V1.4	+	I think about my family.
+V1.5	+	The man put the money in the room.
+V1.6	+	They work at a big company.
+V1.7	+	He knows the name of the student.
+V1.8	+	She looked at the house.
+V1.9	+	The house looks beautiful.
+V1.10	+	People like good music.
+V1.11	+	The student asked a question.
+V1.12	+	He must find a job.
+V1.13	*	She gave.
+V1.14	*	We talked the problem.
+V1.15	*	I think the problem.
+V1.16	*	The man put the money.
+V1.17	*	She looked the house.
+V1.18	*	He know the name of the student.
+V1.19	*	The house seems a.
+V2.1	+	The children play in the house every day.
+V2.2	+	The women were meeting the men in the market.
+V2.3	+	My family lives in a small house.
+V2.4	+	Many people live in this country.
+V2.5	+	I want some money.
+V2.6	*	The children plays in the house.
+V2.7	*	The woman were meeting the men.
+V2.8	*	I want two money.
+V2.9	*	Many child play in the house.
+V3.1	+	Everyone enjoys music.
+V3.2	+	Something is in the room.
+V3.3	+	Each student has a book.
+V3.4	+	Both women came.
+V3.5	+	No student came.
+V3.6	+	Few students study history.
+V3.7	*	Everyone enjoy music.
+V3.8	*	Each students has a book.
+V3.9	*	Both woman came.
+V3.10	*	Few student study history.
+V4.1	+	I saw him before the meeting.
+V4.2	+	We lived there for two years.
+V4.3	+	She never listens to music.
+V4.4	+	The school is near the market.
+V4.5	+	I work during the day.
+V4.6	*	I saw he before the meeting.
+V4.7	*	We lived there for two year.
+V5.1	+	Did you see the man in the house?
+V5.2	+	Who took the money?
+V5.3	+	What is the name of the company?
+V5.4	+	Where is my family?
+V5.5	+	Which country is far?
+V5.6	+	When did the students come to the school?
+V5.7	*	Did you saw the man in the house?
+V5.8	*	Who take the money?
+V5.9	*	Which countries is far?

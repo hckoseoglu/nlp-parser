@@ -576,3 +576,109 @@ converted:  [S [NP [PRP I]] [VP [VBD helped] [NP [PRP$ my] [Nom [NN mother]]] [P
 **Sources to cite for this step**
 
 - SLP2 §12.5 (normal forms), §13.4.1 (conversion to CNF, CKY recognition and parsing, Fig. 13.10, "CKY in practice"), §15.5 (parsing with unification constraints).
+
+## Step 7 – Plan: where the lexicon entries come from (confirmed by the group, carried out in Step 8)
+
+Question: how to choose the words of the lexicon in a way that can be justified and cited.
+
+| Part of the lexicon | Proposed source | Citation |
+|---|---|---|
+| Closed classes: prepositions, conjunctions, pronouns, modals | The lists of SLP2 §5.1 (Fig. 5.1, 5.3, 5.4, 5.5), also shown in Slide07; they come from the CELEX dictionary with frequencies from the 16-million-word COBUILD corpus | Jurafsky & Martin (SLP2); Baayen, Piepenbrock & Gulikers (1995), CELEX |
+| Closed classes: determiners, numbers, question words; and the tag of every word | Penn Treebank tagging guidelines | Santorini (1990); Marcus, Santorini & Marcinkiewicz (1993) |
+| Open classes, core | All words of the assignment's example sentences | assignment text |
+| Open classes, extension | The most frequent nouns, verbs, adjectives, adverbs of a published frequency list, e.g. the New General Service List (2,809 words, from a 273-million-word part of the Cambridge English Corpus, free under CC BY-SA 4.0) | Browne, Culligan & Phillips (2013); alternative: Leech, Rayson & Wilson (2001), BNC |
+| Verb frames, mass / count nouns | Frame types from Slide09 p. 52 and SLP2 Fig. 12.6; values assigned by hand and checked in a learner's dictionary (verb patterns, countable / uncountable). The standard resources named in SLP2 §15.3.3 (COMLEX, FrameNet) are cited as background; COMLEX is licensed through the LDC | Macleod, Grishman & Meyers (1998) |
+
+Selection criteria to state in the report:
+
+- Closed-class words are kept if they are in current use (non-zero COBUILD frequency in the textbook figures: drops *o'er*, *ere*, *nigh*) and usable in the constructions we cover (drops subordinating conjunctions: no sub-clauses; particles: no phrasal verbs; contracted modals such as *can't*: no contractions).
+- Open-class words are taken by frequency rank, a fixed number per word class, so the choice is not arbitrary.
+- All inflected forms of a chosen word are entered (plural; -s, past, -ing, participle), since the lexicon stands in for the morphological analyzer.
+
+Rule for citing: a source is cited only for what was actually taken from it or checked against it. Entries drafted by the AI tool have to be checked against the cited list / dictionary by the group before the citation is used.
+
+## Step 8 – Phase 3 done: the lexicon is complete
+
+Artifacts: `grammar/lexicon.txt`, `grammar/stems.txt`, `grammar/tags.txt`, `grammar/grammar.txt` (3 small changes), `data/coverage.md`, `data/tests.txt`, `data/heldout.txt`
+
+**Sources actually used** (the plan of Step 7, carried out)
+
+| Source | What was taken from it | Words |
+|---|---|---|
+| SLP2 §5.1, Fig. 5.1 (prepositions), 5.3 (conjunctions), 5.4 (pronouns), 5.5 (modals), from the CELEX dictionary (Baayen et al., 1995) | which closed-class words exist | 31 prepositions + *to*, 20 personal and reflexive pronouns, 7 possessives, 11 indefinite pronouns, 8 question-word entries, 8 modals, 2 conjunctions, numbers |
+| Penn Treebank tagging guidelines (Santorini, 1990) | the words tagged as determiner (`DT`) | 17 determiners |
+| New General Service List 1.2 (Browne, Culligan & Phillips, 2013), file `NGSL_12_stats.csv` downloaded 25.11.2026 from newgeneralservicelist.com, licence CC BY-SA 4.0 | which open-class words to include, by frequency rank; also prepositions and adverbs missing from the textbook figure, and the modal *could* | 60 nouns (ranks 49–257), 40 verbs (ranks 30–192), 30 adjectives (ranks 54–290), 15 adverbs, 26 prepositions; also 2 extra time nouns outside the first 60 (*morning* 434, *evening* 679), and it is given as the source of 8 words we already used in test sentences (*there, very, often, many, today, tomorrow, ...*): 181 words in total |
+| The assignment's sentences and our test sentences | the vocabulary we started from | 42 words |
+| Own additions | proper nouns | 9 |
+
+The rank of each NGSL word is written next to it in `grammar/lexicon.txt`, so the selection can be checked. The NGSL files themselves are not in the repository.
+
+**What we did ourselves** (neither source provides it)
+
+- The Penn Treebank tag of every word and the decision which word class an NGSL headword belongs to (the list has no parts of speech). A headword used as noun and verb (*work*, *change*, *report*) was put in one class only, the one we judged primary.
+- All inflected forms with `stem+suffix` analysis: plurals, and five forms per verb. The inflected forms were checked against the NGSL file of word forms (`NGSL_12_lemmatized_for_research.csv`); the only form it does not list is *lives* as the plural of *life*, which is correct English.
+- All feature values: complement frames and prepositions of the verbs, mass / count, time nouns, agreement of determiners. **These are our own judgments (drafted by the AI tool) and still have to be checked against a dictionary before a dictionary is cited for them.**
+
+**Selection rules** (to state in the report)
+
+- Closed classes from the textbook figure: kept if the COBUILD frequency in the figure is at least 100 (drops *sans*, *circa*, *o'er*, ...) and if the word fits our constructions. Dropped for scope: *than* (comparatives), subordinating conjunctions (no sub-clauses), clause-joining conjunctions such as *but*, particles, contracted modals (*can't*), absolute possessives (*mine*), *need / ought / dare* as modals.
+- Open classes from the NGSL: walk the list in rank order and take the first 60 nouns, 40 verbs, 30 adjectives and 15 adverbs not already in the lexicon. Skipped: *let* (its complement is a clause, outside our grammar).
+- A verb gets only the frames our grammar covers. *say*, *know*, *think* also take clauses in English; here they have their noun-phrase / preposition-phrase frames only.
+- Every chosen word gets all its forms.
+
+**Size of the lexicon**
+
+| | Before | After |
+|---|---|---|
+| Word forms | 150 | 592 |
+| Entries (form + tag reading) | 186 | 707 |
+| Verb stems (without modals) | 13 | 53 |
+| Stem entries with features | 59 | 161 |
+
+By tag: NN 97, NNS 78, NNP 9, verb forms 332 (55–56 per verb tag), MD 9, JJ 36, RB 23, RBS 1, IN 57, TO 1, DT 17, PRP 20, PRP$ 7, CD 10, CC 2, WP 2, WDT 2, WRB 4.
+
+**Changes to the grammar that the new words required** (49 rules, 108 checks, 46 pass-ups, 13 features; CNF: 244 binary rules, 31 generated symbols, 25 lexical rules)
+
+- New rule `NP → DT` with the check `DT.pro = yes`: *this*, *these*, *some*, *both* can be a noun phrase alone (`This is my friend`); *the*, *every* cannot. New feature `pro`. Checklist item B13.
+- *last* and *next*: `last night`, `next year` need no determiner and fix the time (past / future). Two additions to `Nom → ADJP Nom`: the check `ADJP.time = Nom_1.time` and the pass-up `Nom.bare <- ADJP.bare`. Now `* I will come last night` is rejected by the same time check as `yesterday`.
+- Ambiguity check `NP_1.pro != yes` in `VP → V NP NP`, so `bought these novels` is one object.
+- The meaning of a pass-up was made precise: `LHS.f <- A.g` sets the parent's feature only if the child has it.
+- *go* also allows a place adverb (`We went there`, `I went home`).
+- Verbs like *seem*, *become*, *feel*, *look* use the existing `VP → V ADJP` rule (`The school seems far`), so no new rule was needed for them.
+
+**Results**
+
+- Test set, now 228 sentences (139 must parse, 89 must be rejected; 78 new ones for the new vocabulary and constructions): 139 of 139 accepted, 89 of 89 rejected. 127 good sentences have one parse, 10 have two, 1 has three, 1 has five.
+- All 10 hand-drawn trees are still found.
+- Nothing that worked before broke: every old lexicon entry is unchanged except the determiners (new `pro` feature) and *go* (new frame).
+- Second held-out round (60 new sentences using the new vocabulary, written after the expansion): 58 of 60 correct.
+  - `What do you want?` rejected: a question on the object, which is out of scope (my mistake to include it, kept for honesty).
+  - `* I met her next week.` accepted: not through the time modifier (that reading is rejected) but with `her next week` as the object, like `I met her last husband`. A real second analysis, caused by *her* being both `PRP` and `PRP$`.
+- Verification of the programs repeated: tree validity (no problems), parser vs. independent recognizer without constraints (3456 strings, no disagreement).
+
+**New limitations found by probing** (each verified by running it)
+
+| Behaviour | Why |
+|---|---|
+| `Who is he?` rejected | a noun phrase after any verb must be in object form; after *be* English allows both |
+| `Each of the students came.` rejected | a determiner standing alone cannot take an *of* phrase |
+| `I am at school.` rejected (`at home` works) | *school* is not marked as usable without determiner |
+| `There is a book.` rejected | no existential *there* |
+| `I saw him yesterday morning.` rejected | no noun + noun compounds |
+| `He put it there.` rejected | *put* asks for a preposition phrase, not a place adverb |
+| `Next student came.`, `I well came.` accepted | *next* licenses a bare noun in general; adverbs are not restricted by position |
+| `You must study every day.` has 2 parses | *every day* as modifier, or as the object of *study* |
+
+**Judgment calls the group should review**
+
+1. The frames of the 40 new verbs in `grammar/stems.txt`.
+2. Which nouns are marked `bare=yes` (can stand without a determiner): *time, life, interest, home, money, business, information* and the earlier ones.
+3. The class chosen for headwords that are both noun and verb.
+4. The excluded words listed under "Selection rules".
+5. The determiner list was written from memory of the Penn Treebank guidelines; compare it with the `DT` section of Santorini (1990) before citing. Likewise compare the pronoun, preposition and modal lists with the figures in SLP2 §5.1 (the PDF text of the figures was only partly readable by the tool).
+
+**Sources to cite for this step**
+
+- Jurafsky & Martin, SLP2 §5.1 (closed classes; Fig. 5.1, 5.3, 5.4, 5.5); Baayen, Piepenbrock & Gulikers (1995), CELEX.
+- Santorini (1990), Part-of-speech tagging guidelines for the Penn Treebank Project.
+- Browne, Culligan & Phillips (2013), The New General Service List, version 1.2, https://www.newgeneralservicelist.com/new-general-service-list

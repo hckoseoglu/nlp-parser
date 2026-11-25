@@ -86,12 +86,15 @@ A10 + Where is the school?
 | B10 | Cardinal numbers | Should | Slide09 p. 28 |
 | B11 | Time expressions as NPs | Must | Slide09 p. 65 |
 | B12 | Quantifiers (*many, much, some, all*) | Could | Slide09 p. 29 |
+| B13 | Determiner alone as a noun phrase (*this, these, some, both*) | Should | – (added with the lexicon, 25.11.2026) |
 
 ```
 B1  + She helped me.
     + They watched us.
     * Her helped me.
     * She helped I.
+    + She helped herself.
+    * Herself helped me.
 B2  + This tree is beautiful.
     + These trees are beautiful.
     * This trees are beautiful.
@@ -128,6 +131,13 @@ B11 + I came here yesterday.
     * We watched the moonlight this tree.
 B12 + I bought many novels.
     * I bought many novel.
+B13 + This is my friend.
+    + I enjoy these.
+    + Is this a book?
+    + I bought these novels.
+    * The is my friend.
+    * Every is beautiful.
+    * These is beautiful.
 ```
 
 ## C. Verb phrase
@@ -156,6 +166,7 @@ C3  + We went to the school.
     * I went the school.                              (ex)
     * I went in the school.                           (ex)
     * I listen music.
+    + We went there.
 C4  + I helped my mother with dinner.
     + I helped my mother.
 C5  + I bought my friend a present.
@@ -166,6 +177,10 @@ C6  + Watermelon is a fruit.
     * The school was quite.
     + The school is here.
     * The school is often.
+    + The school seems far.
+    + She became a student.
+    + I feel good.
+    * The school seems.
 C7  + We watched the moonlight under this tree every night.   (ex)
     + We watched the moonlight every night under this tree.
     + I bought a present for my friend in Ankara yesterday.
@@ -188,6 +203,10 @@ D1  + I will help my father.
     + You can come here.
     * I will helped my father.
     * She can comes here.
+    + You should help your mother.
+    + They may come tomorrow.
+    * You should helps your mother.
+    * They may came tomorrow.
 D2  + I am reading the book.
     + We were watching the moonlight.
     + She is going to the school.
@@ -239,9 +258,84 @@ E4  + I will help my father tomorrow.
     * I helped my father tomorrow.
     * Will you come yesterday?
     * I enjoy novels yesterday.
+    + I came here last night.
+    + We will go to the village next year.
+    + I read a book every day.
+    * I will come last night.
+    * We went to the village next year.
+    * I came here big night.
 ```
 
 Note on E4: present tense with a future time is fine in English (*I am going to the school tomorrow*), so only past-with-future, future-with-past and present-with-past count as clashes.
+
+## V. Sentences with the extended vocabulary
+
+Added when the lexicon was completed (phase 3). They use the words taken from the textbook's closed-class lists and from the New General Service List, and check that the new verbs, nouns and determiners behave correctly.
+
+| ID | What is tested | Tier |
+|---|---|---|
+| V1 | New verbs with their complements | Should |
+| V2 | New nouns, irregular plurals | Should |
+| V3 | New determiners and indefinite pronouns | Should |
+| V4 | New prepositions and adverbs | Should |
+| V5 | Questions with the new words | Should |
+
+```
+V1  + She gave the child a book.
+    + She gave a book to the child.
+    + We talked about the problem.
+    + I think about my family.
+    + The man put the money in the room.
+    + They work at a big company.
+    + He knows the name of the student.
+    + She looked at the house.
+    + The house looks beautiful.
+    + People like good music.
+    + The student asked a question.
+    + He must find a job.
+    * She gave.
+    * We talked the problem.
+    * I think the problem.
+    * The man put the money.
+    * She looked the house.
+    * He know the name of the student.
+    * The house seems a.
+V2  + The children play in the house every day.
+    + The women were meeting the men in the market.
+    + My family lives in a small house.
+    + Many people live in this country.
+    + I want some money.
+    * The children plays in the house.
+    * The woman were meeting the men.
+    * I want two money.
+    * Many child play in the house.
+V3  + Everyone enjoys music.
+    + Something is in the room.
+    + Each student has a book.
+    + Both women came.
+    + No student came.
+    + Few students study history.
+    * Everyone enjoy music.
+    * Each students has a book.
+    * Both woman came.
+    * Few student study history.
+V4  + I saw him before the meeting.
+    + We lived there for two years.
+    + She never listens to music.
+    + The school is near the market.
+    + I work during the day.
+    * I saw he before the meeting.
+    * We lived there for two year.
+V5  + Did you see the man in the house?
+    + Who took the money?
+    + What is the name of the company?
+    + Where is my family?
+    + Which country is far?
+    + When did the students come to the school?
+    * Did you saw the man in the house?
+    * Who take the money?
+    * Which countries is far?
+```
 
 ## F. Out of scope
 
@@ -256,23 +350,17 @@ Note on E4: present tense with a future time is fine in English (*I am going to 
 | Comparatives | *more beautiful than ...* | no example |
 | Contractions, sentence-internal punctuation | *don't*, commas | handled, if at all, before the parser |
 
-## G. Vocabulary the checklist needs beyond the 16 examples
+## G. Vocabulary
 
-Closed-class words (will be in the lexicon anyway once the closed classes are filled):
-*he, she, it, they, me, him, her, us, them; an, these, those, that; can; am, are, were, be, does, have, has; who, which, where, why, how; or; very; one, two; many.*
-
-Open-class additions:
-- Noun forms: *friends, presents, trees, novel, nights*; time nouns *today, tomorrow*; proper nouns *Ali, Ankara*.
-- Verb forms: *enjoys, buy, bought* (also as participle), *go, going, came, watch, watching, reading, listening, helped* etc. – every verb needs its full set of forms (bare, -s, past, -ing, participle).
-- Adverb: *often* (only if C8 is kept).
+The words come from the lexicon (`grammar/lexicon.txt`), which lists the source of every word: the assignment's sentences, the closed-class lists of the textbook, the New General Service List, or our own additions. See Step 7 of `report/progress-notes.md`.
 
 ## Summary
 
 | Tier | Constructions |
 |---|---|
 | Must | A1 A2 A6 A8 A9 · B2–B7 B8(nouns) B11 · C1–C4 C6 C7 · D1 · E1 E3 E4 E6 E7 |
-| Should | A3 A4 A5 A7 A10 · B1 B8(NPs) B9 B10 · C5 · D2 D3 D4 · E2 E5 |
+| Should | A3 A4 A5 A7 A10 · B1 B8(NPs) B9 B10 B13 · C5 · D2 D3 D4 · E2 E5 · V1–V5 |
 | Could | B12 · C8 · D5 D6 |
 | Out | section F |
 
-Test sentences so far: 87 that must parse, 59 that must be rejected (146 in total).
+Test sentences so far: 135 that must parse, 89 that must be rejected (224 in total).

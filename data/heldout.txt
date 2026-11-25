@@ -65,3 +65,66 @@ H61	*	Me bought a present.
 H62	*	The Ali came.
 H63	*	I have went to the school.
 H64	*	She is go to the school.
+
+# Second round: written after the lexicon was expanded (phase 3), to try the
+# new vocabulary. H2 = held-out, round 2.
+H2.1	+	The children like their new school.
+H2.2	+	My father works in a big company.
+H2.3	+	She wrote a long report about the problem.
+H2.4	+	They live in a small house near the market.
+H2.5	+	We saw the children in the house.
+H2.6	+	The students study history every week.
+H2.7	+	He gave me the money.
+H2.8	+	I will show you the house tomorrow.
+H2.9	+	Did the woman find a job?
+H2.10	+	The man became old.
+H2.11	+	This is a good idea.
+H2.12	+	These are my children.
+H2.13	+	Someone took my book.
+H2.14	+	Nobody knows the reason.
+H2.15	+	She could not find the money.
+H2.16	+	You must study every day.
+H2.17	+	Are the children playing?
+H2.18	+	Who wrote this report?
+H2.19	+	What do you want?
+H2.20	+	Where do they live?
+H2.21	+	I met her last week.
+H2.22	+	We will meet them next month.
+H2.23	+	The family had dinner.
+H2.24	+	Take the book to the school.
+H2.25	+	Do not use my name.
+H2.26	+	The first question was important.
+H2.27	+	I have two children and a big house.
+H2.28	+	She always helps other people.
+H2.29	+	He is a student of history.
+H2.30	+	The company needs new people.
+H2.31	*	The children likes their new school.
+H2.32	*	My father work in a big company.
+H2.33	*	She wrote a long reports about the problem.
+H2.34	*	They lives in a small house.
+H2.35	*	We saw a children.
+H2.36	*	The students studies history every week.
+H2.37	*	He gave I the money.
+H2.38	*	I will showed you the house tomorrow.
+H2.39	*	Did the woman found a job?
+H2.40	*	The man became.
+H2.41	*	This are a good idea.
+H2.42	*	These is my children.
+H2.43	*	Someone take my book.
+H2.44	*	Nobody know the reason.
+H2.45	*	She could not found the money.
+H2.46	*	You must studies every day.
+H2.47	*	Are the children play?
+H2.48	*	Who write this report?
+H2.49	*	I met her next week.
+H2.50	*	We will meet them last month.
+H2.51	*	Takes the book to the school.
+H2.52	*	Do not uses my name.
+H2.53	*	The first questions was important.
+H2.54	*	I have two child and a big house.
+H2.55	*	She always help other people.
+H2.56	*	He is a students of history.
+H2.57	*	The company need new people.
+H2.58	*	A people came.
+H2.59	*	She put the book.
+H2.60	*	They talked the problem.

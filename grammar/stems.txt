@@ -9,83 +9,206 @@
 # Format:  stem   class   feature=value ...
 #          class is a tag, or one of the shorthands defined here.
 # A stem that needs no feature of its own (friend, the, historical) has no line.
+#
+# Features set here (all are explained in features.md):
+#   agr, case      person/number and subject/object form of pronouns; number of determiners
+#   pro            the determiner can stand alone as a noun phrase (this, some, both)
+#   bare           the noun can stand without a determiner (mass nouns, time words)
+#   temporal, time the noun is a time expression / when it refers to
+#   frame          the complements the verb allows (none, NP, PP, NP_PP, NP_NP, ADJP, ADVP, VP)
+#   prep           the preposition its PP must have
+#   aux, vpform    auxiliary; the form of the verb phrase it asks for
+#   adv            kind of adverb (place, deg, neg; default vp)
+# The frames and the bare/temporal values were assigned by us.
 
 V = VB VBP VBZ VBD VBG VBN
 N = NN NNS
 
-# ------------------------------------------------------- personal pronouns
-i           PRP   agr=1sg       case=nom
-you         PRP   agr=2sg|2pl
-he          PRP   agr=3sg       case=nom
-she         PRP   agr=3sg       case=nom
-it          PRP   agr=3sg
-we          PRP   agr=1pl       case=nom
-they        PRP   agr=3pl       case=nom
-me          PRP   agr=1sg       case=acc
-him         PRP   agr=3sg       case=acc
-her         PRP   agr=3sg       case=acc
-us          PRP   agr=1pl       case=acc
-them        PRP   agr=3pl       case=acc
+# --------------------------------------------------- personal pronouns (PRP)
+i             PRP   agr=1sg   case=nom
+you           PRP   agr=2sg|2pl
+he            PRP   agr=3sg   case=nom
+she           PRP   agr=3sg   case=nom
+it            PRP   agr=3sg
+we            PRP   agr=1pl   case=nom
+they          PRP   agr=3pl   case=nom
+me            PRP   agr=1sg   case=acc
+him           PRP   agr=3sg   case=acc
+her           PRP   agr=3sg   case=acc
+us            PRP   agr=1pl   case=acc
+them          PRP   agr=3pl   case=acc
+myself        PRP   agr=1sg   case=acc
+yourself      PRP   agr=2sg   case=acc
+himself       PRP   agr=3sg   case=acc
+herself       PRP   agr=3sg   case=acc
+itself        PRP   agr=3sg   case=acc
+ourselves     PRP   agr=1pl   case=acc
+yourselves    PRP   agr=2pl   case=acc
+themselves    PRP   agr=3pl   case=acc
 
-# ----------------------------------------------- determiners, numbers, who
-a           DT    agr=3sg
-an          DT    agr=3sg
-this        DT    agr=3sg
-that        DT    agr=3sg
-every       DT    agr=3sg
-these       DT    agr=3pl
-those       DT    agr=3pl
-one         CD    agr=3sg
-two         CD    agr=3pl
-who         WP    agr=3sg
+# ---------------------- indefinite pronouns (tagged NN in the Penn Treebank)
+everyone      N     bare=yes
+everybody     N     bare=yes
+everything    N     bare=yes
+someone       N     bare=yes
+somebody      N     bare=yes
+something     N     bare=yes
+anyone        N     bare=yes
+anybody       N     bare=yes
+anything      N     bare=yes
+nothing       N     bare=yes
+nobody        N     bare=yes
 
-# -------------------------------------------------------------------- nouns
-# mass nouns: can stand without a determiner
-dinner      N     bare=yes
-moonlight   N     bare=yes
-music       N     bare=yes
-history     N     bare=yes
-culture     N     bare=yes
-watermelon  N     bare=yes
-fruit       N     bare=yes
-# time nouns: can modify a verb phrase; "time" is when they can refer to
-summer      N     bare=yes   temporal=yes
-night       N     temporal=yes
-yesterday   N     bare=yes   temporal=yes   time=past
-today       N     bare=yes   temporal=yes
-tonight     N     bare=yes   temporal=yes
-tomorrow    N     bare=yes   temporal=yes   time=fut
+# ---------------------------------------------------------- determiners (DT)
+a             DT    agr=3sg
+an            DT    agr=3sg
+this          DT    agr=3sg   pro=yes
+that          DT    agr=3sg   pro=yes
+these         DT    agr=3pl   pro=yes
+those         DT    agr=3pl   pro=yes
+every         DT    agr=3sg
+each          DT    agr=3sg   pro=yes
+another       DT    agr=3sg   pro=yes
+either        DT    agr=3sg   pro=yes
+neither       DT    agr=3sg   pro=yes
+both          DT    agr=3pl   pro=yes
+some          DT    pro=yes
+any           DT    pro=yes
+all           DT    pro=yes
 
-# -------------------------------------------------------------------- verbs
-# frame: the complements the verb allows   (none, NP, PP, NP_PP, NP_NP, ADJP, ADVP, VP)
-# prep:  the preposition its PP must have
-buy         V     frame=NP|NP_NP
-enjoy       V     frame=NP
-help        V     frame=NP|NP_PP        prep=with
-tell        V     frame=PP|NP_PP        prep=about
-attend      V     frame=NP
-watch       V     frame=NP
-come        V     frame=none
-listen      V     frame=none|PP         prep=to
-go          V     frame=PP              prep=to
-read        V     frame=none|NP
+# -------------------------------------------------------------- numbers (CD)
+one           CD    agr=3sg
+two           CD    agr=3pl
+three         CD    agr=3pl
+four          CD    agr=3pl
+five          CD    agr=3pl
+six           CD    agr=3pl
+seven         CD    agr=3pl
+eight         CD    agr=3pl
+nine          CD    agr=3pl
+ten           CD    agr=3pl
 
-# be, do, have. vpform: the form of the verb phrase an auxiliary asks for
-be          V     aux=yes   frame=NP|ADJP|PP|ADVP|VP   vpform=ing
-do          V     aux=yes   frame=VP                   vpform=base
-do          V     frame=NP
-have        V     aux=yes   frame=VP                   vpform=part
-have        V     frame=NP
+# --------------------------------------------- question words (WP, WDT, WRB)
+who           WP    agr=3sg
+what          WP    agr=3sg
 
-# ------------------------------------------------------------------- modals
-will        MD    time=fut
-can         MD    time=pres|fut
+# --------------------------------------------------------------- modals (MD)
+can           MD    time=pres|fut
+will          MD    time=fut
+may           MD    time=pres|fut
+must          MD    time=pres|fut
+shall         MD    time=fut
 
-# ----------------------------------------------------- adjectives, adverbs
-far         JJ    prep=from
-many        JJ    agr=3pl
-here        RB    adv=place
-there       RB    adv=place
-quite       RB    adv=deg
-very        RB    adv=deg
-not         RB    adv=neg
+# --------------------------------------------------------- adverbs (RB, RBS)
+not           RB    adv=neg
+here          RB    adv=place
+there         RB    adv=place
+home          RB    adv=place
+away          RB    adv=place
+very          RB    adv=deg
+quite         RB    adv=deg
+so            RB    adv=deg
+too           RB    adv=deg
+really        RB    adv=deg|vp
+
+# ----------------------------------------------------------- adjectives (JJ)
+far           JJ    prep=from
+different     JJ    prep=from
+many          JJ    agr=3pl
+few           JJ    agr=3pl
+last          JJ    time=past   bare=yes
+next          JJ    time=fut   bare=yes
+
+# ---- nouns from the assignment's sentences and our test sentences (NN, NNS)
+fruit         N     bare=yes
+night         N     temporal=yes
+dinner        N     bare=yes
+moonlight     N     bare=yes
+music         N     bare=yes
+history       N     bare=yes
+culture       N     bare=yes
+watermelon    N     bare=yes
+summer        N     bare=yes   temporal=yes
+yesterday     N     bare=yes   temporal=yes   time=past
+today         N     bare=yes   temporal=yes
+tonight       N     bare=yes   temporal=yes
+tomorrow      N     bare=yes   temporal=yes   time=fut
+
+# ---------------- the 60 most frequent nouns of the New General Service List
+time          N     bare=yes   temporal=yes
+year          N     temporal=yes
+day           N     temporal=yes
+life          N     bare=yes
+interest      N     bare=yes
+week          N     temporal=yes
+home          N     bare=yes
+money         N     bare=yes
+month         N     temporal=yes
+business      N     bare=yes
+information   N     bare=yes
+hour          N     temporal=yes
+
+# ----------------------------------------------------------- more time nouns
+morning       N     temporal=yes
+evening       N     temporal=yes
+
+# -------------- verbs from the assignment's sentences and our test sentences
+buy           V     frame=NP|NP_NP
+enjoy         V     frame=NP
+help          V     frame=NP|NP_PP   prep=with
+tell          V     frame=PP|NP_PP   prep=about
+attend        V     frame=NP
+watch         V     frame=NP
+come          V     frame=none
+listen        V     frame=none|PP   prep=to
+go            V     frame=PP|ADVP   prep=to
+read          V     frame=none|NP
+
+# ---------------- the 40 most frequent verbs of the New General Service List
+say           V     frame=NP|NP_PP   prep=to
+know          V     frame=none|NP
+get           V     frame=NP|NP_NP
+like          V     frame=NP
+think         V     frame=none|PP   prep=about
+make          V     frame=NP|NP_NP
+see           V     frame=none|NP
+take          V     frame=NP|NP_PP   prep=to
+work          V     frame=none
+use           V     frame=NP
+look          V     frame=none|PP|ADJP   prep=at
+want          V     frame=NP
+give          V     frame=NP|NP_NP|NP_PP   prep=to
+find          V     frame=NP|NP_NP
+need          V     frame=NP
+mean          V     frame=NP
+call          V     frame=none|NP
+show          V     frame=NP|NP_NP|NP_PP   prep=to
+change        V     frame=none|NP
+feel          V     frame=NP|ADJP
+write         V     frame=none|NP|NP_NP|NP_PP   prep=to
+try           V     frame=none|NP
+leave         V     frame=none|NP
+ask           V     frame=none|NP|NP_NP|NP_PP   prep=about
+meet          V     frame=none|NP
+start         V     frame=none|NP
+talk          V     frame=none|PP   prep=to|about
+put           V     frame=NP_PP
+become        V     frame=NP|ADJP
+live          V     frame=none
+play          V     frame=none|NP
+include       V     frame=NP
+seem          V     frame=ADJP
+keep          V     frame=NP
+hear          V     frame=none|NP
+set           V     frame=NP
+study         V     frame=none|NP
+follow        V     frame=none|NP
+begin         V     frame=none|NP
+run           V     frame=none|NP
+
+# --------------------------------- be, do, have (auxiliaries and main verbs)
+be            V     aux=yes   frame=NP|ADJP|PP|ADVP|VP   vpform=ing
+do            V     aux=yes   frame=VP   vpform=base
+do            V     frame=NP
+have          V     aux=yes   frame=VP   vpform=part
+have          V     frame=NP

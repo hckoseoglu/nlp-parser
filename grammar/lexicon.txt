@@ -1,10 +1,9 @@
 # CMPE 561 Application Project 2 - lexicon: word forms
 #
 # The output we assume from the morphological analyzer: for every word form
-# its Penn Treebank tag and its analysis as stem+suffix. So far this is the
-# vocabulary of the test sentences; the closed classes are completed in phase 3.
+# its Penn Treebank tag and its analysis as stem+suffix.
 #
-# Format:  word-form   tag   analysis   [feature=value ...]
+# Format:  word-form   tag   analysis   [feature=value ...]   # source of the word
 #          analysis is "-" when the word has no suffix (it is its own stem)
 # A word form with several possible tags has one line per tag.
 #
@@ -12,216 +11,746 @@
 #   1. its tag            (tags.txt:   NNS is plural, VBD is past, ...)
 #   2. its stem           (stems.txt:  go needs a "to" phrase, music is a mass noun, ...)
 #   3. this line          (only for irregular forms: am, are, was, were)
+#
+# Where the words come from (the comment on the first line of each word):
+#   assignment       the example sentences of the assignment and our test sentences
+#   SLP2 Fig. 5.x    closed-class lists in Jurafsky & Martin, Speech and Language
+#                    Processing (2nd ed.), section 5.1, taken from the CELEX dictionary
+#                    (Baayen et al., 1995). Kept: words in current use that fit the
+#                    constructions of our grammar.
+#   PTB guidelines   the determiners listed for the tag DT in Santorini (1990)
+#   NGSL n           New General Service List 1.2 (Browne, Culligan & Phillips, 2013),
+#                    n = frequency rank of the word. The tag, the forms and the
+#                    features are ours.
+#   own              added by us
 
-# ------------------------------------------------------- personal pronouns
-i           PRP   -
-you         PRP   -
-he          PRP   -
-she         PRP   -
-it          PRP   -
-we          PRP   -
-they        PRP   -
-me          PRP   -
-him         PRP   -
-her         PRP   -
-us          PRP   -
-them        PRP   -
+# --------------------------------------------------- personal pronouns (PRP)
+i           PRP   -                         # SLP2 Fig. 5.4
+you         PRP   -                         # SLP2 Fig. 5.4
+he          PRP   -                         # SLP2 Fig. 5.4
+she         PRP   -                         # SLP2 Fig. 5.4
+it          PRP   -                         # SLP2 Fig. 5.4
+we          PRP   -                         # SLP2 Fig. 5.4
+they        PRP   -                         # SLP2 Fig. 5.4
+me          PRP   -                         # SLP2 Fig. 5.4
+him         PRP   -                         # SLP2 Fig. 5.4
+her         PRP   -                         # SLP2 Fig. 5.4
+us          PRP   -                         # SLP2 Fig. 5.4
+them        PRP   -                         # SLP2 Fig. 5.4
+myself      PRP   -                         # SLP2 Fig. 5.4
+yourself    PRP   -                         # SLP2 Fig. 5.4
+himself     PRP   -                         # SLP2 Fig. 5.4
+herself     PRP   -                         # SLP2 Fig. 5.4
+itself      PRP   -                         # SLP2 Fig. 5.4
+ourselves   PRP   -                         # SLP2 Fig. 5.4
+yourselves  PRP   -                         # SLP2 Fig. 5.4
+themselves  PRP   -                         # SLP2 Fig. 5.4
 
-# ----------------------------------------------------- possessive pronouns
-my          PRP$  -
-your        PRP$  -
-his         PRP$  -
-her         PRP$  -
-its         PRP$  -
-our         PRP$  -
-their       PRP$  -
+# ------------------------------------------------ possessive pronouns (PRP$)
+my          PRP$  -                         # SLP2 Fig. 5.4
+your        PRP$  -                         # SLP2 Fig. 5.4
+his         PRP$  -                         # SLP2 Fig. 5.4
+her         PRP$  -                         # SLP2 Fig. 5.4
+its         PRP$  -                         # SLP2 Fig. 5.4
+our         PRP$  -                         # SLP2 Fig. 5.4
+their       PRP$  -                         # SLP2 Fig. 5.4
 
-# -------------------------------------------------------------- determiners
-a           DT    -
-an          DT    -
-the         DT    -
-this        DT    -
-that        DT    -
-these       DT    -
-those       DT    -
-every       DT    -
-some        DT    -
+# ---------------------- indefinite pronouns (tagged NN in the Penn Treebank)
+everyone    NN    -                         # SLP2 Fig. 5.4
+everybody   NN    -                         # SLP2 Fig. 5.4
+everything  NN    -                         # SLP2 Fig. 5.4
+someone     NN    -                         # SLP2 Fig. 5.4
+somebody    NN    -                         # SLP2 Fig. 5.4
+something   NN    -                         # SLP2 Fig. 5.4
+anyone      NN    -                         # SLP2 Fig. 5.4
+anybody     NN    -                         # SLP2 Fig. 5.4
+anything    NN    -                         # SLP2 Fig. 5.4
+nothing     NN    -                         # SLP2 Fig. 5.4
+nobody      NN    -                         # SLP2 Fig. 5.4
 
-# ------------------------------------------------------------------ numbers
-one         CD    -
-two         CD    -
+# ---------------------------------------------------------- determiners (DT)
+a           DT    -                         # PTB guidelines
+an          DT    -                         # PTB guidelines
+the         DT    -                         # PTB guidelines
+this        DT    -                         # PTB guidelines
+that        DT    -                         # PTB guidelines
+these       DT    -                         # PTB guidelines
+those       DT    -                         # PTB guidelines
+every       DT    -                         # PTB guidelines
+each        DT    -                         # PTB guidelines
+another     DT    -                         # PTB guidelines
+either      DT    -                         # PTB guidelines
+neither     DT    -                         # PTB guidelines
+both        DT    -                         # PTB guidelines
+some        DT    -                         # PTB guidelines
+any         DT    -                         # PTB guidelines
+all         DT    -                         # PTB guidelines
+no          DT    -                         # PTB guidelines
 
-# -------------------------------------------------------------------- nouns
-present     NN    -
+# -------------------------------------------------------------- numbers (CD)
+one         CD    -                         # SLP2 §5.1
+two         CD    -                         # SLP2 §5.1
+three       CD    -                         # SLP2 §5.1
+four        CD    -                         # SLP2 §5.1
+five        CD    -                         # SLP2 §5.1
+six         CD    -                         # SLP2 §5.1
+seven       CD    -                         # SLP2 §5.1
+eight       CD    -                         # SLP2 §5.1
+nine        CD    -                         # SLP2 §5.1
+ten         CD    -                         # SLP2 §5.1
+
+# --------------------------------------------- question words (WP, WDT, WRB)
+who         WP    -                         # SLP2 Fig. 5.4
+what        WP    -                         # SLP2 Fig. 5.4
+which       WDT   -                         # SLP2 Fig. 5.4
+what        WDT   -                         # SLP2 Fig. 5.4
+when        WRB   -                         # SLP2 Fig. 5.4
+where       WRB   -                         # SLP2 Fig. 5.4
+why         WRB   -                         # SLP2 Fig. 5.4
+how         WRB   -                         # SLP2 Fig. 5.4
+
+# --------------------------------------------------------------- modals (MD)
+can         MD    -                         # SLP2 Fig. 5.5
+could       MD    -                         # NGSL 66
+will        MD    -                         # SLP2 Fig. 5.5
+would       MD    -                         # SLP2 Fig. 5.5
+may         MD    -                         # SLP2 Fig. 5.5
+might       MD    -                         # SLP2 Fig. 5.5
+must        MD    -                         # SLP2 Fig. 5.5
+shall       MD    -                         # SLP2 Fig. 5.5
+should      MD    -                         # SLP2 Fig. 5.5
+
+# --------------------------------------------------------- conjunctions (CC)
+and         CC    -                         # SLP2 Fig. 5.3
+or          CC    -                         # SLP2 Fig. 5.3
+
+# ----------------------------------------------------- prepositions (IN, TO)
+to          TO    -                         # SLP2 Fig. 5.1
+of          IN    -                         # SLP2 Fig. 5.1
+in          IN    -                         # SLP2 Fig. 5.1
+for         IN    -                         # SLP2 Fig. 5.1
+with        IN    -                         # SLP2 Fig. 5.1
+on          IN    -                         # SLP2 Fig. 5.1
+at          IN    -                         # SLP2 Fig. 5.1
+by          IN    -                         # SLP2 Fig. 5.1
+from        IN    -                         # SLP2 Fig. 5.1
+about       IN    -                         # SLP2 Fig. 5.1
+over        IN    -                         # SLP2 Fig. 5.1
+through     IN    -                         # SLP2 Fig. 5.1
+after       IN    -                         # SLP2 Fig. 5.1
+between     IN    -                         # SLP2 Fig. 5.1
+under       IN    -                         # SLP2 Fig. 5.1
+per         IN    -                         # SLP2 Fig. 5.1
+among       IN    -                         # SLP2 Fig. 5.1
+within      IN    -                         # SLP2 Fig. 5.1
+towards     IN    -                         # SLP2 Fig. 5.1
+above       IN    -                         # SLP2 Fig. 5.1
+near        IN    -                         # SLP2 Fig. 5.1
+off         IN    -                         # SLP2 Fig. 5.1
+past        IN    -                         # SLP2 Fig. 5.1
+worth       IN    -                         # SLP2 Fig. 5.1
+toward      IN    -                         # SLP2 Fig. 5.1
+plus        IN    -                         # SLP2 Fig. 5.1
+till        IN    -                         # SLP2 Fig. 5.1
+amongst     IN    -                         # SLP2 Fig. 5.1
+via         IN    -                         # SLP2 Fig. 5.1
+amid        IN    -                         # SLP2 Fig. 5.1
+underneath  IN    -                         # SLP2 Fig. 5.1
+versus      IN    -                         # SLP2 Fig. 5.1
+into        IN    -                         # NGSL 73
+before      IN    -                         # NGSL 106
+around      IN    -                         # NGSL 170
+during      IN    -                         # NGSL 182
+since       IN    -                         # NGSL 191
+without     IN    -                         # NGSL 212
+against     IN    -                         # NGSL 224
+until       IN    -                         # NGSL 255
+across      IN    -                         # NGSL 383
+along       IN    -                         # NGSL 388
+outside     IN    -                         # NGSL 491
+behind      IN    -                         # NGSL 492
+upon        IN    -                         # NGSL 579
+inside      IN    -                         # NGSL 660
+below       IN    -                         # NGSL 761
+despite     IN    -                         # NGSL 771
+beyond      IN    -                         # NGSL 826
+except      IN    -                         # NGSL 841
+throughout  IN    -                         # NGSL 897
+opposite    IN    -                         # NGSL 1373
+onto        IN    -                         # NGSL 1404
+besides     IN    -                         # NGSL 1725
+unlike      IN    -                         # NGSL 1737
+beside      IN    -                         # NGSL 2115
+beneath     IN    -                         # NGSL 2394
+alongside   IN    -                         # NGSL 2766
+
+# --------------------------------------------------------- adverbs (RB, RBS)
+not         RB    -                         # SLP2 §5.1
+here        RB    -                         # assignment
+there       RB    -                         # NGSL 40
+home        RB    -                         # NGSL 161
+away        RB    -                         # NGSL 234
+very        RB    -                         # NGSL 63
+quite       RB    -                         # assignment
+so          RB    -                         # NGSL 32
+too         RB    -                         # NGSL 118
+really      RB    -                         # NGSL 104
+lastly      RB    -                         # assignment
+often       RB    -                         # NGSL 288
+well        RB    -                         # NGSL 61
+just        RB    -                         # NGSL 64
+now         RB    -                         # NGSL 70
+then        RB    -                         # NGSL 71
+also        RB    -                         # NGSL 72
+only        RB    -                         # NGSL 74
+even        RB    -                         # NGSL 96
+still       RB    -                         # NGSL 119
+never       RB    -                         # NGSL 162
+again       RB    -                         # NGSL 175
+always      RB    -                         # NGSL 183
+most        RBS   -                         # assignment
+
+# ----------------------------------------------------------- adjectives (JJ)
+historical  JJ    -                         # assignment
+national    JJ    -                         # assignment
+beautiful   JJ    -                         # assignment
+far         JJ    -                         # assignment
+loud        JJ    -                         # assignment
+many        JJ    -                         # NGSL 99
+other       JJ    -                         # NGSL 54
+good        JJ    -                         # NGSL 56
+new         JJ    -                         # NGSL 79
+first       JJ    -                         # NGSL 78
+right       JJ    -                         # NGSL 92
+last        JJ    -                         # NGSL 101
+long        JJ    -                         # NGSL 115
+same        JJ    -                         # NGSL 122
+great       JJ    -                         # NGSL 124
+own         JJ    -                         # NGSL 129
+little      JJ    -                         # NGSL 132
+old         JJ    -                         # NGSL 144
+late        JJ    -                         # NGSL 147
+high        JJ    -                         # NGSL 148
+different   JJ    -                         # NGSL 149
+next        JJ    -                         # NGSL 151
+big         JJ    -                         # NGSL 184
+small       JJ    -                         # NGSL 186
+important   JJ    -                         # NGSL 190
+few         JJ    -                         # NGSL 195
+early       JJ    -                         # NGSL 197
+large       JJ    -                         # NGSL 210
+second      JJ    -                         # NGSL 226
+young       JJ    -                         # NGSL 238
+bad         JJ    -                         # NGSL 268
+able        JJ    -                         # NGSL 271
+sure        JJ    -                         # NGSL 279
+low         JJ    -                         # NGSL 283
+public      JJ    -                         # NGSL 287
+possible    JJ    -                         # NGSL 290
+
+# ---- nouns from the assignment's sentences and our test sentences (NN, NNS)
+present     NN    -                         # assignment
 presents    NNS   present+s
-friend      NN    -
+friend      NN    -                         # assignment
 friends     NNS   friend+s
-mother      NN    -
-father      NN    -
-fruit       NN    -
-meeting     NN    -
-tree        NN    -
+mother      NN    -                         # assignment
+mothers     NNS   mother+s
+father      NN    -                         # assignment
+fathers     NNS   father+s
+fruit       NN    -                         # assignment
+fruits      NNS   fruit+s
+meeting     NN    -                         # assignment
+meetings    NNS   meeting+s
+tree        NN    -                         # assignment
 trees       NNS   tree+s
-school      NN    -
-village     NN    -
-gift        NN    -
-book        NN    -
-novel       NN    -
+school      NN    -                         # assignment
+schools     NNS   school+s
+village     NN    -                         # assignment
+villages    NNS   village+s
+gift        NN    -                         # assignment
+gifts       NNS   gift+s
+book        NN    -                         # assignment
+books       NNS   book+s
+novel       NN    -                         # assignment
 novels      NNS   novel+s
+epic        NN    -                         # assignment
 epics       NNS   epic+s
-night       NN    -
+night       NN    -                         # assignment
 nights      NNS   night+s
-dinner      NN    -
-moonlight   NN    -
-music       NN    -
-history     NN    -
-culture     NN    -
-watermelon  NN    -
-summer      NN    -
-yesterday   NN    -
-today       NN    -
-tomorrow    NN    -
-tonight     NN    -
+dinner      NN    -                         # assignment
+dinners     NNS   dinner+s
+moonlight   NN    -                         # assignment
+music       NN    -                         # assignment
+history     NN    -                         # assignment
+culture     NN    -                         # assignment
+cultures    NNS   culture+s
+watermelon  NN    -                         # assignment
+watermelons NNS   watermelon+s
+summer      NN    -                         # assignment
+summers     NNS   summer+s
+yesterday   NN    -                         # assignment
+today       NN    -                         # NGSL 246
+tonight     NN    -                         # assignment
+tomorrow    NN    -                         # NGSL 726
 
-# ------------------------------------------------------------- proper nouns
-ali         NNP   -
-ankara      NNP   -
+# ---------------- the 60 most frequent nouns of the New General Service List
+time        NN    -                         # NGSL 49
+times       NNS   time+s
+people      NNS   -                         # NGSL 57
+year        NN    -                         # NGSL 58
+years       NNS   year+s
+way         NN    -                         # NGSL 80
+ways        NNS   way+s
+day         NN    -                         # NGSL 85
+days        NNS   day+s
+thing       NN    -                         # NGSL 87
+things      NNS   thing+s
+child       NN    -                         # NGSL 102
+children    NNS   child+s
+company     NN    -                         # NGSL 107
+companies   NNS   company+s
+life        NN    -                         # NGSL 111
+lives       NNS   life+s
+man         NN    -                         # NGSL 112
+men         NNS   man+s
+place       NN    -                         # NGSL 114
+places      NNS   place+s
+problem     NN    -                         # NGSL 120
+problems    NNS   problem+s
+lot         NN    -                         # NGSL 123
+lots        NNS   lot+s
+number      NN    -                         # NGSL 127
+numbers     NNS   number+s
+part        NN    -                         # NGSL 130
+parts       NNS   part+s
+point       NN    -                         # NGSL 131
+points      NNS   point+s
+interest    NN    -                         # NGSL 142
+interests   NNS   interest+s
+country     NN    -                         # NGSL 143
+countries   NNS   country+s
+end         NN    -                         # NGSL 152
+ends        NNS   end+s
+world       NN    -                         # NGSL 156
+worlds      NNS   world+s
+week        NN    -                         # NGSL 157
+weeks       NNS   week+s
+home        NN    -                         # NGSL 161
+homes       NNS   home+s
+course      NN    -                         # NGSL 164
+courses     NNS   course+s
+house       NN    -                         # NGSL 165
+houses      NNS   house+s
+report      NN    -                         # NGSL 166
+reports     NNS   report+s
+group       NN    -                         # NGSL 167
+groups      NNS   group+s
+case        NN    -                         # NGSL 168
+cases       NNS   case+s
+woman       NN    -                         # NGSL 169
+women       NNS   woman+s
+family      NN    -                         # NGSL 172
+families    NNS   family+s
+kind        NN    -                         # NGSL 176
+kinds       NNS   kind+s
+system      NN    -                         # NGSL 179
+systems     NNS   system+s
+question    NN    -                         # NGSL 181
+questions   NNS   question+s
+hand        NN    -                         # NGSL 198
+hands       NNS   hand+s
+state       NN    -                         # NGSL 199
+states      NNS   state+s
+money       NN    -                         # NGSL 201
+fact        NN    -                         # NGSL 202
+facts       NNS   fact+s
+area        NN    -                         # NGSL 204
+areas       NNS   area+s
+name        NN    -                         # NGSL 206
+names       NNS   name+s
+month       NN    -                         # NGSL 209
+months      NNS   month+s
+business    NN    -                         # NGSL 211
+businesses  NNS   business+s
+information NN    -                         # NGSL 213
+order       NN    -                         # NGSL 215
+orders      NNS   order+s
+government  NN    -                         # NGSL 216
+governments NNS   government+s
+word        NN    -                         # NGSL 217
+words       NNS   word+s
+issue       NN    -                         # NGSL 218
+issues      NNS   issue+s
+market      NN    -                         # NGSL 219
+markets     NNS   market+s
+service     NN    -                         # NGSL 223
+services    NNS   service+s
+job         NN    -                         # NGSL 231
+jobs        NNS   job+s
+plan        NN    -                         # NGSL 232
+plans       NNS   plan+s
+result      NN    -                         # NGSL 233
+results     NNS   result+s
+example     NN    -                         # NGSL 235
+examples    NNS   example+s
+program     NN    -                         # NGSL 240
+programs    NNS   program+s
+hour        NN    -                         # NGSL 247
+hours       NNS   hour+s
+student     NN    -                         # NGSL 248
+students    NNS   student+s
+face        NN    -                         # NGSL 249
+faces       NNS   face+s
+idea        NN    -                         # NGSL 251
+ideas       NNS   idea+s
+cost        NN    -                         # NGSL 252
+costs       NNS   cost+s
+room        NN    -                         # NGSL 254
+rooms       NNS   room+s
+reason      NN    -                         # NGSL 256
+reasons     NNS   reason+s
+form        NN    -                         # NGSL 257
+forms       NNS   form+s
 
-# -------------------------------------------------------------------- verbs
-buy         VB    buy
+# ----------------------------------------------------------- more time nouns
+morning     NN    -                         # NGSL 434
+mornings    NNS   morning+s
+evening     NN    -                         # NGSL 679
+evenings    NNS   evening+s
+
+# -------------------------------------------------------- proper nouns (NNP)
+ali         NNP   -                         # own
+ankara      NNP   -                         # own
+ayse        NNP   -                         # own
+mehmet      NNP   -                         # own
+istanbul    NNP   -                         # own
+turkey      NNP   -                         # own
+john        NNP   -                         # own
+mary        NNP   -                         # own
+london      NNP   -                         # own
+
+# -------------- verbs from the assignment's sentences and our test sentences
+buy         VB    buy                       # assignment
 buy         VBP   buy
 buys        VBZ   buy+s
 bought      VBD   buy+ed
 bought      VBN   buy+ed
 buying      VBG   buy+ing
-
-enjoy       VB    enjoy
+enjoy       VB    enjoy                     # assignment
 enjoy       VBP   enjoy
 enjoys      VBZ   enjoy+s
 enjoyed     VBD   enjoy+ed
 enjoyed     VBN   enjoy+ed
 enjoying    VBG   enjoy+ing
-
-help        VB    help
+help        VB    help                      # assignment
 help        VBP   help
 helps       VBZ   help+s
 helped      VBD   help+ed
 helped      VBN   help+ed
 helping     VBG   help+ing
-
-tell        VB    tell
+tell        VB    tell                      # assignment
 tell        VBP   tell
 tells       VBZ   tell+s
 told        VBD   tell+ed
 told        VBN   tell+ed
 telling     VBG   tell+ing
-
-attend      VB    attend
+attend      VB    attend                    # assignment
 attend      VBP   attend
 attends     VBZ   attend+s
 attended    VBD   attend+ed
 attended    VBN   attend+ed
 attending   VBG   attend+ing
-
-watch       VB    watch
+watch       VB    watch                     # assignment
 watch       VBP   watch
 watches     VBZ   watch+s
 watched     VBD   watch+ed
 watched     VBN   watch+ed
 watching    VBG   watch+ing
-
-come        VB    come
+come        VB    come                      # assignment
 come        VBP   come
 comes       VBZ   come+s
 came        VBD   come+ed
 come        VBN   come+ed
 coming      VBG   come+ing
-
-listen      VB    listen
+listen      VB    listen                    # assignment
 listen      VBP   listen
 listens     VBZ   listen+s
 listened    VBD   listen+ed
 listened    VBN   listen+ed
 listening   VBG   listen+ing
-
-go          VB    go
+go          VB    go                        # assignment
 go          VBP   go
 goes        VBZ   go+s
 went        VBD   go+ed
 gone        VBN   go+ed
 going       VBG   go+ing
-
-read        VB    read
+read        VB    read                      # assignment
 read        VBP   read
 reads       VBZ   read+s
 read        VBD   read+ed
 read        VBN   read+ed
 reading     VBG   read+ing
 
-# be, do, have (auxiliaries and main verbs)
-be          VB    be
-am          VBP   be      agr=1sg
-are         VBP   be      agr=2sg|1pl|2pl|3pl
+# ---------------- the 40 most frequent verbs of the New General Service List
+say         VB    say                       # NGSL 30
+say         VBP   say
+says        VBZ   say+s
+said        VBD   say+ed
+said        VBN   say+ed
+saying      VBG   say+ing
+know        VB    know                      # NGSL 41
+know        VBP   know
+knows       VBZ   know+s
+knew        VBD   know+ed
+known       VBN   know+ed
+knowing     VBG   know+ing
+get         VB    get                       # NGSL 43
+get         VBP   get
+gets        VBZ   get+s
+got         VBD   get+ed
+got         VBN   get+ed
+getting     VBG   get+ing
+like        VB    like                      # NGSL 45
+like        VBP   like
+likes       VBZ   like+s
+liked       VBD   like+ed
+liked       VBN   like+ed
+liking      VBG   like+ing
+think       VB    think                     # NGSL 47
+think       VBP   think
+thinks      VBZ   think+s
+thought     VBD   think+ed
+thought     VBN   think+ed
+thinking    VBG   think+ing
+make        VB    make                      # NGSL 48
+make        VBP   make
+makes       VBZ   make+s
+made        VBD   make+ed
+made        VBN   make+ed
+making      VBG   make+ing
+see         VB    see                       # NGSL 50
+see         VBP   see
+sees        VBZ   see+s
+saw         VBD   see+ed
+seen        VBN   see+ed
+seeing      VBG   see+ing
+take        VB    take                      # NGSL 59
+take        VBP   take
+takes       VBZ   take+s
+took        VBD   take+ed
+taken       VBN   take+ed
+taking      VBG   take+ing
+work        VB    work                      # NGSL 67
+work        VBP   work
+works       VBZ   work+s
+worked      VBD   work+ed
+worked      VBN   work+ed
+working     VBG   work+ing
+use         VB    use                       # NGSL 68
+use         VBP   use
+uses        VBZ   use+s
+used        VBD   use+ed
+used        VBN   use+ed
+using       VBG   use+ing
+look        VB    look                      # NGSL 75
+look        VBP   look
+looks       VBZ   look+s
+looked      VBD   look+ed
+looked      VBN   look+ed
+looking     VBG   look+ing
+want        VB    want                      # NGSL 76
+want        VBP   want
+wants       VBZ   want+s
+wanted      VBD   want+ed
+wanted      VBN   want+ed
+wanting     VBG   want+ing
+give        VB    give                      # NGSL 77
+give        VBP   give
+gives       VBZ   give+s
+gave        VBD   give+ed
+given       VBN   give+ed
+giving      VBG   give+ing
+find        VB    find                      # NGSL 81
+find        VBP   find
+finds       VBZ   find+s
+found       VBD   find+ed
+found       VBN   find+ed
+finding     VBG   find+ing
+need        VB    need                      # NGSL 90
+need        VBP   need
+needs       VBZ   need+s
+needed      VBD   need+ed
+needed      VBN   need+ed
+needing     VBG   need+ing
+mean        VB    mean                      # NGSL 95
+mean        VBP   mean
+means       VBZ   mean+s
+meant       VBD   mean+ed
+meant       VBN   mean+ed
+meaning     VBG   mean+ing
+call        VB    call                      # NGSL 105
+call        VBP   call
+calls       VBZ   call+s
+called      VBD   call+ed
+called      VBN   call+ed
+calling     VBG   call+ing
+show        VB    show                      # NGSL 110
+show        VBP   show
+shows       VBZ   show+s
+showed      VBD   show+ed
+shown       VBN   show+ed
+showing     VBG   show+ing
+change      VB    change                    # NGSL 113
+change      VBP   change
+changes     VBZ   change+s
+changed     VBD   change+ed
+changed     VBN   change+ed
+changing    VBG   change+ing
+feel        VB    feel                      # NGSL 117
+feel        VBP   feel
+feels       VBZ   feel+s
+felt        VBD   feel+ed
+felt        VBN   feel+ed
+feeling     VBG   feel+ing
+write       VB    write                     # NGSL 121
+write       VBP   write
+writes      VBZ   write+s
+wrote       VBD   write+ed
+written     VBN   write+ed
+writing     VBG   write+ing
+try         VB    try                       # NGSL 125
+try         VBP   try
+tries       VBZ   try+s
+tried       VBD   try+ed
+tried       VBN   try+ed
+trying      VBG   try+ing
+leave       VB    leave                     # NGSL 126
+leave       VBP   leave
+leaves      VBZ   leave+s
+left        VBD   leave+ed
+left        VBN   leave+ed
+leaving     VBG   leave+ing
+ask         VB    ask                       # NGSL 134
+ask         VBP   ask
+asks        VBZ   ask+s
+asked       VBD   ask+ed
+asked       VBN   ask+ed
+asking      VBG   ask+ing
+meet        VB    meet                      # NGSL 135
+meet        VBP   meet
+meets       VBZ   meet+s
+met         VBD   meet+ed
+met         VBN   meet+ed
+meeting     VBG   meet+ing
+start       VB    start                     # NGSL 136
+start       VBP   start
+starts      VBZ   start+s
+started     VBD   start+ed
+started     VBN   start+ed
+starting    VBG   start+ing
+talk        VB    talk                      # NGSL 137
+talk        VBP   talk
+talks       VBZ   talk+s
+talked      VBD   talk+ed
+talked      VBN   talk+ed
+talking     VBG   talk+ing
+put         VB    put                       # NGSL 139
+put         VBP   put
+puts        VBZ   put+s
+put         VBD   put+ed
+put         VBN   put+ed
+putting     VBG   put+ing
+become      VB    become                    # NGSL 141
+become      VBP   become
+becomes     VBZ   become+s
+became      VBD   become+ed
+become      VBN   become+ed
+becoming    VBG   become+ing
+live        VB    live                      # NGSL 153
+live        VBP   live
+lives       VBZ   live+s
+lived       VBD   live+ed
+lived       VBN   live+ed
+living      VBG   live+ing
+play        VB    play                      # NGSL 158
+play        VBP   play
+plays       VBZ   play+s
+played      VBD   play+ed
+played      VBN   play+ed
+playing     VBG   play+ing
+include     VB    include                   # NGSL 163
+include     VBP   include
+includes    VBZ   include+s
+included    VBD   include+ed
+included    VBN   include+ed
+including   VBG   include+ing
+seem        VB    seem                      # NGSL 173
+seem        VBP   seem
+seems       VBZ   seem+s
+seemed      VBD   seem+ed
+seemed      VBN   seem+ed
+seeming     VBG   seem+ing
+keep        VB    keep                      # NGSL 177
+keep        VBP   keep
+keeps       VBZ   keep+s
+kept        VBD   keep+ed
+kept        VBN   keep+ed
+keeping     VBG   keep+ing
+hear        VB    hear                      # NGSL 178
+hear        VBP   hear
+hears       VBZ   hear+s
+heard       VBD   hear+ed
+heard       VBN   hear+ed
+hearing     VBG   hear+ing
+set         VB    set                       # NGSL 185
+set         VBP   set
+sets        VBZ   set+s
+set         VBD   set+ed
+set         VBN   set+ed
+setting     VBG   set+ing
+study       VB    study                     # NGSL 187
+study       VBP   study
+studies     VBZ   study+s
+studied     VBD   study+ed
+studied     VBN   study+ed
+studying    VBG   study+ing
+follow      VB    follow                    # NGSL 188
+follow      VBP   follow
+follows     VBZ   follow+s
+followed    VBD   follow+ed
+followed    VBN   follow+ed
+following   VBG   follow+ing
+begin       VB    begin                     # NGSL 189
+begin       VBP   begin
+begins      VBZ   begin+s
+began       VBD   begin+ed
+begun       VBN   begin+ed
+beginning   VBG   begin+ing
+run         VB    run                       # NGSL 192
+run         VBP   run
+runs        VBZ   run+s
+ran         VBD   run+ed
+run         VBN   run+ed
+running     VBG   run+ing
+
+# --------------------------------- be, do, have (auxiliaries and main verbs)
+be          VB    be                        # SLP2 §12.3.6
+am          VBP   be            agr=1sg
+are         VBP   be            agr=2sg|1pl|2pl|3pl
 is          VBZ   be+s
-was         VBD   be+ed   agr=1sg|3sg
-were        VBD   be+ed   agr=2sg|1pl|2pl|3pl
+was         VBD   be+ed         agr=1sg|3sg
+were        VBD   be+ed         agr=2sg|1pl|2pl|3pl
 been        VBN   be+ed
 being       VBG   be+ing
-
-do          VB    do
+do          VB    do                        # SLP2 §12.3.6
 do          VBP   do
 does        VBZ   do+s
 did         VBD   do+ed
 done        VBN   do+ed
 doing       VBG   do+ing
-
-have        VB    have
+have        VB    have                      # SLP2 §12.3.6
 have        VBP   have
 has         VBZ   have+s
 had         VBD   have+ed
 had         VBN   have+ed
 having      VBG   have+ing
-
-# ------------------------------------------------------------------- modals
-will        MD    -
-can         MD    -
-
-# --------------------------------------------------------------- adjectives
-historical  JJ    -
-national    JJ    -
-beautiful   JJ    -
-far         JJ    -
-loud        JJ    -
-many        JJ    -
-
-# ------------------------------------------------------------------ adverbs
-here        RB    -
-there       RB    -
-lastly      RB    -
-quite       RB    -
-very        RB    -
-often       RB    -
-not         RB    -
-most        RBS   -
-
-# ----------------------------------------------------------- question words
-when        WRB   -
-where       WRB   -
-why         WRB   -
-how         WRB   -
-who         WP    -
-which       WDT   -
-
-# ------------------------------------------------------------- prepositions
-for         IN    -
-with        IN    -
-about       IN    -
-of          IN    -
-under       IN    -
-from        IN    -
-in          IN    -
-to          TO    -
-
-# ------------------------------------------------------------- conjunctions
-and         CC    -
-or          CC    -
